@@ -1,5 +1,5 @@
 //
-//  PhotoEntity.swift
+//  PhotoStatisticsEntity.swift
 //  Wizz
 //
 //  Created by Sebastien Gohier on 30/12/2021.
@@ -7,9 +7,9 @@
 
 import Foundation
 
-struct PhotoEntity: Identifiable {
+struct PhotoStatisticsEntity: Identifiable {
     var id: String
-    var user: UserEntity
-    var urlRegular: String
+    var downloads: Int
     var likes: Int
+    var views: Int
 }

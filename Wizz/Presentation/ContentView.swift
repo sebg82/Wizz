@@ -17,13 +17,13 @@ struct ContentView: View {
 
     var body: some View {
         TabView(selection: $selection) {
-            TodaysList()
+            TodaysListView()
                 .tabItem {
                     Label("Today", systemImage: "doc.text.image")
                 }
                 .tag(Tab.today)
 
-            TodaysSearch()
+            SearchPhotosView()
                 .tabItem {
                     Label("Search", systemImage: "magnifyingglass")
                 }
@@ -34,6 +34,6 @@ struct ContentView: View {
 
 struct ContentView_Previews: PreviewProvider {
     static var previews: some View {
-        ContentView().environmentObject(ModelData())
+        ContentView()/*.environmentObject(ModelData())*/
     }
 }

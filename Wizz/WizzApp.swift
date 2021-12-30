@@ -9,12 +9,12 @@ import SwiftUI
 
 @main
 struct WizzApp: App {
-    @StateObject private var modelData = ModelData()
+//    @StateObject private var modelData = ModelData()
 
     var body: some Scene {
         WindowGroup {
             ContentView()
-                .environmentObject(modelData)
+//                .environmentObject(modelData)
         }
     }
 }

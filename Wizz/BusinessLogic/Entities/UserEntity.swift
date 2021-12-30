@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct UserEntity: Equatable, Identifiable {
+struct UserEntity: Identifiable {
     var id: String
     var username: String
     var profileImageMedium: String
