@@ -10,6 +10,7 @@ import SwiftUI
 @main
 struct WizzApp: App {
 //    @StateObject private var modelData = ModelData()
+//    @StateObject private var photosUseCase = PhotosUseCase(dataSource: UnsplashPhotosImpl())
 
     var body: some Scene {
         WindowGroup {

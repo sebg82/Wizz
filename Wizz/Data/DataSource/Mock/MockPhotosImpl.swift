@@ -14,8 +14,8 @@ struct MockPhotosImpl : PhotosInterface {
         return result.compactMap { $0.toEntity() }
     }
     
-    func getUserPhotos(_ userId: String) async throws -> [PhotoStatisticsEntity] {
-        let result: [PhotoStatisticsData] = try getData(from: "userPhotosData.json")
+    func getUserPhotos(_ userId: String) async throws -> [PhotoEntity] {
+        let result: [PhotoData] = try getData(from: "userPhotosData.json")
         return result.compactMap { $0.toEntity() }
     }
     
@@ -31,8 +31,8 @@ struct MockPhotosImpl : PhotosInterface {
     
     private func getData<Element: Decodable>(from filename: String) throws -> Element {
         let url = Bundle.main.url(forResource: filename, withExtension: nil)
-        let data = try! Data(contentsOf: url!)
-        let result = try! JSONDecoder().decode(Element.self, from: data)
+        let data = try Data(contentsOf: url!)
+        let result = try JSONDecoder().decode(Element.self, from: data)
         return result
     }
 }

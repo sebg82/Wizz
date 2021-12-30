@@ -14,8 +14,8 @@ struct UnsplashPhotosImpl : PhotosInterface {
         return result.compactMap { $0.toEntity() }
     }
     
-    func getUserPhotos(_ userId: String) async throws -> [PhotoStatisticsEntity] {
-        let result: [PhotoStatisticsData] = try await getData("users/\(userId)/photos", query: [:])
+    func getUserPhotos(_ userId: String) async throws -> [PhotoEntity] {
+        let result: [PhotoData] = try await getData("users/\(userId)/photos", query: [:])
         return result.compactMap { $0.toEntity() }
     }
     
@@ -30,9 +30,14 @@ struct UnsplashPhotosImpl : PhotosInterface {
     }
 
     private func getData<Element: Decodable>(_ stringUrl: String, query: [String : Any]) async throws -> Element {
-        let request = try! urlRequest(relativePath: stringUrl, queryParameters: query)
-        let (data, _) = try! await URLSession.shared.data(for: request)
-        let result = try! JSONDecoder().decode(Element.self, from: data)
+        let request = try urlRequest(relativePath: stringUrl, queryParameters: query)
+        let (data, _) = try await URLSession.shared.data(for: request)
+        
+        let object = try JSONSerialization.jsonObject(with: data, options: [])
+        let data2 = try JSONSerialization.data(withJSONObject: object, options: [.prettyPrinted])
+        print( NSString(data: data2, encoding: String.Encoding.utf8.rawValue)! )
+        
+        let result = try JSONDecoder().decode(Element.self, from: data)
         return result
     }
     

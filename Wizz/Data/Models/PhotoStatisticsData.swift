@@ -11,7 +11,7 @@ struct PhotoStatisticsData: Codable {
     let id: String
     let downloads: TotalData
     let likes: TotalData
-    let views: TotalData
+    let views: TotalData 
 
     struct TotalData: Codable {
         let total: Int

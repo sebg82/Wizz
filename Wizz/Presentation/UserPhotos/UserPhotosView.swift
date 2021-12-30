@@ -13,7 +13,7 @@ struct UserPhotosView: View {
     
     var body: some View {
         List {
-            ForEach(vm.photosStatistics){ item in
+            ForEach(vm.photos){ item in
                 HStack{
                     Text("\(item.id)")
                 }

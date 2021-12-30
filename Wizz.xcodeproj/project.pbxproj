@@ -127,6 +127,7 @@
 			isa = PBXGroup;
 			children = (
 				090243C9277DB8D0001C76A7 /* ContentView.swift */,
+				09024433277E6D6D001C76A7 /* PhotoDetail */,
 				090243D9277DBBB3001C76A7 /* TodaysList */,
 				090243DA277DBBC0001C76A7 /* UserPhotos */,
 				090243DB277DBDE2001C76A7 /* SearchPhotos */,
@@ -266,6 +267,13 @@
 				09024429277E1E15001C76A7 /* SearchPhotosData.swift */,
 			);
 			path = Models;
+			sourceTree = "<group>";
+		};
+		09024433277E6D6D001C76A7 /* PhotoDetail */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = PhotoDetail;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */

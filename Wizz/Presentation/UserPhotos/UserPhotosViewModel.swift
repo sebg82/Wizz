@@ -10,17 +10,17 @@ import Foundation
 @MainActor
 class UserPhotosViewModel: ObservableObject {
     
-    var photosUseCase = PhotosUseCase(dataSource: UnsplashPhotosImpl())
-    @Published var photosStatistics: [PhotoStatisticsEntity] = []
+    var photosUseCase = PhotosUseCase(dataSource: MockPhotosImpl())
+    @Published var photos: [PhotoEntity] = []
     @Published var errorMessage = ""
     @Published var hasError = false
     
     func getUserPhotos(_ userId: String) async {
         do {
-            photosStatistics = try await photosUseCase.getUserPhotos(userId)
+            photos = try await photosUseCase.getUserPhotos(userId)
             errorMessage = ""
         } catch {
-            photosStatistics = []
+            photos = []
             errorMessage = error.localizedDescription
             hasError = true
         }

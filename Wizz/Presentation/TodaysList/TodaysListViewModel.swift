@@ -10,7 +10,7 @@ import Foundation
 @MainActor
 class TodaysListViewModel: ObservableObject {
     
-    var photosUseCase = PhotosUseCase(dataSource: UnsplashPhotosImpl())
+    var photosUseCase = PhotosUseCase(dataSource: MockPhotosImpl())
     @Published var photos: [PhotoEntity] = []
     @Published var errorMessage = ""
     @Published var hasError = false
@@ -18,7 +18,10 @@ class TodaysListViewModel: ObservableObject {
     func getPhotos() async {
         do {
             photos = try await photosUseCase.getPhotos()
-            errorMessage = ""
+//            let userPhotos = try await photosUseCase.getUserPhotos("xps")
+//            print(userPhotos)
+//            let photosStatistics = try await photosUseCase.getPhotoStatistics("g2E2NQ5SWSU")
+//            print(photosStatistics)
         } catch {
             photos = []
             errorMessage = error.localizedDescription
