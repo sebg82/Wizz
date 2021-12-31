@@ -8,8 +8,8 @@
 import Foundation
 
 protocol SavePhotosInterface {
-    func savePhotos(_ photos: [PhotoEntity]) throws
-    func saveUserPhotos(_ photos: [PhotoEntity]) throws
-    func savePhotoStatistics(_ statistics: PhotoStatisticsEntity) throws
-    func saveSearchPhotos(_ photos: [PhotoEntity]) throws
+    func savePhotos(_ photos: [PhotoEntity]) async throws
+    func saveUserPhotos(_ photos: [PhotoEntity], for userId: String) async throws
+    func savePhotoStatistics(_ statistics: PhotoStatisticsEntity, for photoId: String) async throws
+    func saveSearchPhotos(_ photos: [PhotoEntity], for query: String) async throws
 }

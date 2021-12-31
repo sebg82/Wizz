@@ -34,11 +34,6 @@ extension UnsplashPhotosImpl: FetchPhotosInterface {
     private func getObject<Element: Decodable>(from relativePath: String, query: [String : Any]) async throws -> Element {
         let request = try urlRequest(relativePath: relativePath, queryParameters: query)
         let (data, _) = try await URLSession.shared.data(for: request)
-//
-//        let object = try JSONSerialization.jsonObject(with: data, options: [])
-//        let data2 = try JSONSerialization.data(withJSONObject: object, options: [.prettyPrinted])
-//        print( NSString(data: data2, encoding: String.Encoding.utf8.rawValue)! )
-        
         let result = try JSONDecoder().decode(Element.self, from: data)
         return result
     }

@@ -7,18 +7,18 @@
 
 import Foundation
 
+// Implements business logic here
 struct PhotosUseCase {
 
     let source: FetchPhotosInterface
     let cache: FetchPhotosInterface & SavePhotosInterface
     
     func getPhotos() async throws -> [PhotoEntity] {
-        // implements business logic here
         // Get the photos from the provider
         if let photos = try? await source.fetchPhotos() {
             
             // Save the photos in the device
-            try? cache.savePhotos(photos)
+            try? await cache.savePhotos(photos)
             return photos
         }
 
@@ -27,13 +27,12 @@ struct PhotosUseCase {
     }
 
     func getUserPhotos(_ userId: String) async throws -> [PhotoEntity] {
-        // implements business logic here
         
         // Get the photos from the provider
         if let photos = try? await source.fetchUserPhotos(userId) {
             
             // Save the photos in the device
-            try? cache.saveUserPhotos(photos)
+            try? await cache.saveUserPhotos(photos, for: userId)
             return photos
         }
 
@@ -42,13 +41,12 @@ struct PhotosUseCase {
     }
 
     func getPhotoStatistics(_ photoId: String) async throws -> PhotoStatisticsEntity {
-        // implements business logic here
 
         // Get the photos from the provider
         if let statistics = try? await source.fetchPhotoStatistics(photoId) {
             
             // Save the statistics in the device
-            try? cache.savePhotoStatistics(statistics)
+            try? await cache.savePhotoStatistics(statistics, for: photoId)
             return statistics
         }
 
@@ -57,13 +55,12 @@ struct PhotosUseCase {
     }
 
     func getSearchPhotos(_ query: String) async throws -> [PhotoEntity] {
-        // implements business logic here
         
         // Get the photos from the provider
         if let photos = try? await source.fetchSearchPhotos(query) {
             
             // Save the photos in the device
-            try? cache.saveSearchPhotos(photos)
+            try? await cache.saveSearchPhotos(photos, for: query)
             return photos
         }
 

@@ -12,22 +12,22 @@ struct CachePhotosImpl {}
 extension CachePhotosImpl: FetchPhotosInterface {
     
     func fetchPhotos() async throws -> [PhotoEntity] {
-        let result: [PhotoData] = try getObject(from: "photosData.json")
+        let result: [PhotoData] = try getObject(from: "photos.json")
         return result.compactMap { $0.toEntity() }
     }
     
     func fetchUserPhotos(_ userId: String) async throws -> [PhotoEntity] {
-        let result: [PhotoData] = try getObject(from: "userPhotosData.json")
+        let result: [PhotoData] = try getObject(from: "users(\(userId))-photos.json")
         return result.compactMap { $0.toEntity() }
     }
     
     func fetchPhotoStatistics(_ photoId: String) async throws -> PhotoStatisticsEntity {
-        let result: PhotoStatisticsData = try getObject(from: "photoStatisticsData.json")
+        let result: PhotoStatisticsData = try getObject(from: "photos(\(photoId))-statistics.json")
         return result.toEntity()
     }
     
     func fetchSearchPhotos(_ query: String) async throws -> [PhotoEntity] {
-        let result: SearchPhotosData = try getObject(from: "searchPhotosData.json")
+        let result: SearchPhotosData = try getObject(from: "search(\(query))-photos.json")
         return result.results.compactMap { $0.toEntity() }
     }
     
@@ -41,33 +41,29 @@ extension CachePhotosImpl: FetchPhotosInterface {
 
 extension CachePhotosImpl: SavePhotosInterface {
     
-    func savePhotos(_ photos: [PhotoEntity]) throws {
+    func savePhotos(_ photos: [PhotoEntity]) async throws {
         let objData = photos.compactMap { PhotoData($0) }
-        try setObject(objData, to: "photosData.json")
+        try setObject(objData, to: "photos.json")
     }
 
-    func saveUserPhotos(_ photos: [PhotoEntity]) throws {
+    func saveUserPhotos(_ photos: [PhotoEntity], for userId: String) async throws {
         let objData = photos.compactMap { PhotoData($0) }
-        try setObject(objData, to: "photosData.json")
+        try setObject(objData, to: "users(\(userId))-photos.json")
     }
     
-    func savePhotoStatistics(_ statistics: PhotoStatisticsEntity) throws {
+    func savePhotoStatistics(_ statistics: PhotoStatisticsEntity, for photoId: String) async throws {
         let objData = PhotoStatisticsData(statistics)
-        try setObject(objData, to: "photosData.json")
+        try setObject(objData, to: "photos(\(photoId))-statistics.json")
     }
 
-    func saveSearchPhotos(_ photos: [PhotoEntity]) throws {
+    func saveSearchPhotos(_ photos: [PhotoEntity], for query: String) async throws {
         let objData = photos.compactMap { PhotoData($0) }
-        try setObject(objData, to: "photosData.json")
+        try setObject(objData, to: "search(\(query))-photos.json")
     }
     
     private func setObject<Element: Encodable>(_ object: Element, to filename: String) throws {
         let url = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)[0].appendingPathComponent(filename)
-        do {
-            let jsonData = try JSONEncoder().encode(object)
-            try jsonData.write(to: url)
-        } catch {
-            print(error)
-        }
+        let jsonData = try JSONEncoder().encode(object)
+        try jsonData.write(to: url)
     }
 }
