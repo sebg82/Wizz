@@ -8,22 +8,38 @@
 import SwiftUI
 
 struct TodaysListView: View {
-//    @EnvironmentObject var modelData: ModelData
-    @StateObject var vm = TodaysListViewModel()
-    
-    fileprivate func listRow(_ photo: PhotoEntity) -> some View {
-        HStack{
-            Text("\(photo.id)")
-        }
-    }
+    @StateObject var vm: TodaysListViewModel
+    @State private var todayDate: String = {
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "EEEE MMM d yyyy"
+        return dateFormatter.string(from: Date()).uppercased()
+    } ()
 
     var body: some View {
-        List {
-            ForEach(vm.photos){ item in
-                listRow(item)
+        NavigationView {
+            List {
+                Text("\(todayDate)")
+                    .font(.system(size: 13, weight: .bold, design: .default))
+                    .foregroundColor(Color(.systemGray2))
+                    .listRowSeparator(.hidden)
+                ForEach(vm.photos) { photo in
+                    ZStack {
+                        NavigationLink(destination:
+                            UserPhotosView(vm: UserPhotosViewModel())
+                        ) {
+                            EmptyView()
+                        }
+                        .opacity(0.0)
+                        .buttonStyle(PlainButtonStyle())
+                        
+                        PhotoRow(photo: photo)
+                            .listRowSeparator(.hidden)
+                    }
+                }
             }
+            .listStyle(.inset)
+            .navigationBarTitle("Today")
         }
-        .navigationTitle("Today")
         .task {
            await vm.getPhotos()
         }
@@ -36,6 +52,6 @@ struct TodaysListView: View {
 
 struct TodaysListView_Previews: PreviewProvider {
     static var previews: some View {
-        TodaysListView()/*.environmentObject(ModelData())*/
+        TodaysListView(vm: TodaysListViewModel())
     }
 }

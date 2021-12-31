@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct PhotoEntity: Identifiable {
+struct PhotoEntity: Identifiable, Hashable {
     var id: String
     var user: UserEntity
     var urlRegular: String

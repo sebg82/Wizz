@@ -9,17 +9,37 @@ import SwiftUI
 
 struct SearchPhotosView: View {
     
-    @StateObject var vm = SearchPhotosViewModel()
+    @State private var searchText = ""
+    @StateObject var vm: SearchPhotosViewModel
 
+    var searchResults: [PhotoEntity] {
+//        await vm.getSearchPhotos(searchText)
+//        return vm.photos
+        return []
+    }
+    
     var body: some View {
-        List {
-            ForEach(vm.photos){ item in
-                HStack{
-                    Text("\(item.id)")
+        NavigationView {
+            List {
+                ForEach(vm.photos) { photo in
+                    ZStack {
+                        NavigationLink(destination:
+                            UserPhotosView(vm: UserPhotosViewModel())
+                        ) {
+                            EmptyView()
+                        }
+                        .opacity(0.0)
+                        .buttonStyle(PlainButtonStyle())
+                        
+                        PhotoRow(photo: photo)
+                            .listRowSeparator(.hidden)
+                    }
                 }
             }
+            .listStyle(.inset)
+            .navigationBarTitle("Search")
+            .searchable(text: $searchText, placement: .navigationBarDrawer(displayMode: .always), prompt: "Photos")
         }
-        .navigationTitle("Search")
         .task {
            await vm.getSearchPhotos("sky")
         }
@@ -32,6 +52,6 @@ struct SearchPhotosView: View {
 
 struct SearchPhotosView_Previews: PreviewProvider {
     static var previews: some View {
-        SearchPhotosView()
+        SearchPhotosView(vm: SearchPhotosViewModel())
     }
 }

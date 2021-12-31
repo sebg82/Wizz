@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct PhotoStatisticsEntity: Identifiable {
+struct PhotoStatisticsEntity: Identifiable, Hashable {
     var id: String
     var downloads: Int
     var likes: Int

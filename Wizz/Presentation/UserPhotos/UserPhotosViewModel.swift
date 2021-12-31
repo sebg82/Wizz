@@ -10,7 +10,7 @@ import Foundation
 @MainActor
 class UserPhotosViewModel: ObservableObject {
     
-    var photosUseCase = PhotosUseCase(source: UnsplashPhotosImpl(), cache: CachePhotosImpl())
+    var photosUseCase = PhotosUseCase(source: MockPhotosImpl(), cache: CachePhotosImpl())
     @Published var photos: [PhotoEntity] = []
     @Published var errorMessage = ""
     @Published var hasError = false

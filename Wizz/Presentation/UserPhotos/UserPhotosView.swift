@@ -9,7 +9,7 @@ import SwiftUI
 
 struct UserPhotosView: View {
     
-    @StateObject var vm = UserPhotosViewModel()
+    @StateObject var vm: UserPhotosViewModel
     
     var body: some View {
         List {
@@ -31,7 +31,7 @@ struct UserPhotosView: View {
 
 struct UserPhotosView_Previews: PreviewProvider {
     static var previews: some View {
-        UserPhotosView()
+        UserPhotosView(vm: UserPhotosViewModel())
     }
 }
 
