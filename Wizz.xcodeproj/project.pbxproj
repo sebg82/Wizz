@@ -14,7 +14,7 @@
 		090243DE277DC536001C76A7 /* TodaysListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 090243DD277DC536001C76A7 /* TodaysListView.swift */; };
 		090243E0277DC555001C76A7 /* SearchPhotosView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 090243DF277DC555001C76A7 /* SearchPhotosView.swift */; };
 		090243F0277DCF5A001C76A7 /* photosData.json in Resources */ = {isa = PBXBuildFile; fileRef = 090243EF277DCF5A001C76A7 /* photosData.json */; };
-		090243F6277DEE66001C76A7 /* PhotosInterface.swift in Sources */ = {isa = PBXBuildFile; fileRef = 090243F5277DEE66001C76A7 /* PhotosInterface.swift */; };
+		090243F6277DEE66001C76A7 /* FetchPhotosInterface.swift in Sources */ = {isa = PBXBuildFile; fileRef = 090243F5277DEE66001C76A7 /* FetchPhotosInterface.swift */; };
 		090243F8277DEEDA001C76A7 /* PhotoEntity.swift in Sources */ = {isa = PBXBuildFile; fileRef = 090243F7277DEEDA001C76A7 /* PhotoEntity.swift */; };
 		090243FA277DEFCB001C76A7 /* UserEntity.swift in Sources */ = {isa = PBXBuildFile; fileRef = 090243F9277DEFCB001C76A7 /* UserEntity.swift */; };
 		090243FC277DF021001C76A7 /* PhotosUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 090243FB277DF021001C76A7 /* PhotosUseCase.swift */; };
@@ -32,6 +32,8 @@
 		0902442E277E37CA001C76A7 /* searchPhotosData.json in Resources */ = {isa = PBXBuildFile; fileRef = 0902442D277E37CA001C76A7 /* searchPhotosData.json */; };
 		09024430277E37F8001C76A7 /* photoStatisticsData.json in Resources */ = {isa = PBXBuildFile; fileRef = 0902442F277E37F8001C76A7 /* photoStatisticsData.json */; };
 		09024432277E3813001C76A7 /* userPhotosData.json in Resources */ = {isa = PBXBuildFile; fileRef = 09024431277E3813001C76A7 /* userPhotosData.json */; };
+		09024435277F29A5001C76A7 /* SavePhotosInterface.swift in Sources */ = {isa = PBXBuildFile; fileRef = 09024434277F29A5001C76A7 /* SavePhotosInterface.swift */; };
+		09024438277F3957001C76A7 /* CachePhotosImpl.swift in Sources */ = {isa = PBXBuildFile; fileRef = 09024437277F3957001C76A7 /* CachePhotosImpl.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -44,7 +46,7 @@
 		090243DD277DC536001C76A7 /* TodaysListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TodaysListView.swift; sourceTree = "<group>"; };
 		090243DF277DC555001C76A7 /* SearchPhotosView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchPhotosView.swift; sourceTree = "<group>"; };
 		090243EF277DCF5A001C76A7 /* photosData.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = photosData.json; sourceTree = "<group>"; };
-		090243F5277DEE66001C76A7 /* PhotosInterface.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotosInterface.swift; sourceTree = "<group>"; };
+		090243F5277DEE66001C76A7 /* FetchPhotosInterface.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FetchPhotosInterface.swift; sourceTree = "<group>"; };
 		090243F7277DEEDA001C76A7 /* PhotoEntity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoEntity.swift; sourceTree = "<group>"; };
 		090243F9277DEFCB001C76A7 /* UserEntity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserEntity.swift; sourceTree = "<group>"; };
 		090243FB277DF021001C76A7 /* PhotosUseCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotosUseCase.swift; sourceTree = "<group>"; };
@@ -62,6 +64,8 @@
 		0902442D277E37CA001C76A7 /* searchPhotosData.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = searchPhotosData.json; sourceTree = "<group>"; };
 		0902442F277E37F8001C76A7 /* photoStatisticsData.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = photoStatisticsData.json; sourceTree = "<group>"; };
 		09024431277E3813001C76A7 /* userPhotosData.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = userPhotosData.json; sourceTree = "<group>"; };
+		09024434277F29A5001C76A7 /* SavePhotosInterface.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SavePhotosInterface.swift; sourceTree = "<group>"; };
+		09024437277F3957001C76A7 /* CachePhotosImpl.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CachePhotosImpl.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -127,7 +131,6 @@
 			isa = PBXGroup;
 			children = (
 				090243C9277DB8D0001C76A7 /* ContentView.swift */,
-				09024433277E6D6D001C76A7 /* PhotoDetail */,
 				090243D9277DBBB3001C76A7 /* TodaysList */,
 				090243DA277DBBC0001C76A7 /* UserPhotos */,
 				090243DB277DBDE2001C76A7 /* SearchPhotos */,
@@ -182,6 +185,7 @@
 		090243E7277DCA7C001C76A7 /* DataSource */ = {
 			isa = PBXGroup;
 			children = (
+				09024436277F38DA001C76A7 /* Cache */,
 				09024419277E0582001C76A7 /* Mock */,
 				09024418277E056D001C76A7 /* Unsplash */,
 			);
@@ -208,7 +212,8 @@
 		090243F2277DED6C001C76A7 /* Interfaces */ = {
 			isa = PBXGroup;
 			children = (
-				090243F5277DEE66001C76A7 /* PhotosInterface.swift */,
+				090243F5277DEE66001C76A7 /* FetchPhotosInterface.swift */,
+				09024434277F29A5001C76A7 /* SavePhotosInterface.swift */,
 			);
 			path = Interfaces;
 			sourceTree = "<group>";
@@ -269,11 +274,12 @@
 			path = Models;
 			sourceTree = "<group>";
 		};
-		09024433277E6D6D001C76A7 /* PhotoDetail */ = {
+		09024436277F38DA001C76A7 /* Cache */ = {
 			isa = PBXGroup;
 			children = (
+				09024437277F3957001C76A7 /* CachePhotosImpl.swift */,
 			);
-			path = PhotoDetail;
+			path = Cache;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -351,7 +357,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				090243CA277DB8D0001C76A7 /* ContentView.swift in Sources */,
-				090243F6277DEE66001C76A7 /* PhotosInterface.swift in Sources */,
+				090243F6277DEE66001C76A7 /* FetchPhotosInterface.swift in Sources */,
 				09024428277E13B7001C76A7 /* PhotoStatisticsData.swift in Sources */,
 				090243FE277DF5F3001C76A7 /* TodaysListViewModel.swift in Sources */,
 				090243DE277DC536001C76A7 /* TodaysListView.swift in Sources */,
@@ -365,7 +371,9 @@
 				090243FA277DEFCB001C76A7 /* UserEntity.swift in Sources */,
 				090243C8277DB8D0001C76A7 /* WizzApp.swift in Sources */,
 				0902441B277E0C1E001C76A7 /* MockPhotosImpl.swift in Sources */,
+				09024435277F29A5001C76A7 /* SavePhotosInterface.swift in Sources */,
 				090243E0277DC555001C76A7 /* SearchPhotosView.swift in Sources */,
+				09024438277F3957001C76A7 /* CachePhotosImpl.swift in Sources */,
 				09024415277E0475001C76A7 /* UserPhotosView.swift in Sources */,
 				0902441D277E0C37001C76A7 /* UnsplashPhotosImpl.swift in Sources */,
 				09024413277E03E4001C76A7 /* SearchPhotosViewModel.swift in Sources */,

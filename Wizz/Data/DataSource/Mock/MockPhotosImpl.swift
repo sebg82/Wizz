@@ -7,29 +7,29 @@
 
 import Foundation
 
-struct MockPhotosImpl : PhotosInterface {
+struct MockPhotosImpl : FetchPhotosInterface {
     
-    func getPhotos() async throws -> [PhotoEntity] {
-        let result: [PhotoData] = try getData(from: "photosData.json")
+    func fetchPhotos() async throws -> [PhotoEntity] {
+        let result: [PhotoData] = try getObject(from: "photosData.json")
         return result.compactMap { $0.toEntity() }
     }
     
-    func getUserPhotos(_ userId: String) async throws -> [PhotoEntity] {
-        let result: [PhotoData] = try getData(from: "userPhotosData.json")
+    func fetchUserPhotos(_ userId: String) async throws -> [PhotoEntity] {
+        let result: [PhotoData] = try getObject(from: "userPhotosData.json")
         return result.compactMap { $0.toEntity() }
     }
     
-    func getPhotoStatistics(_ photoId: String) async throws -> PhotoStatisticsEntity {
-        let result: PhotoStatisticsData = try getData(from: "photoStatisticsData.json")
+    func fetchPhotoStatistics(_ photoId: String) async throws -> PhotoStatisticsEntity {
+        let result: PhotoStatisticsData = try getObject(from: "photoStatisticsData.json")
         return result.toEntity()
     }
     
-    func getSearchPhotos(_ query: String) async throws -> [PhotoEntity] {
-        let result: SearchPhotosData = try getData(from: "searchPhotosData.json")
+    func fetchSearchPhotos(_ query: String) async throws -> [PhotoEntity] {
+        let result: SearchPhotosData = try getObject(from: "searchPhotosData.json")
         return result.results.compactMap { $0.toEntity() }
     }
     
-    private func getData<Element: Decodable>(from filename: String) throws -> Element {
+    private func getObject<Element: Decodable>(from filename: String) throws -> Element {
         let url = Bundle.main.url(forResource: filename, withExtension: nil)
         let data = try Data(contentsOf: url!)
         let result = try JSONDecoder().decode(Element.self, from: data)

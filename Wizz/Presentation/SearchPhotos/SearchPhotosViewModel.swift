@@ -10,7 +10,7 @@ import Foundation
 @MainActor
 class SearchPhotosViewModel: ObservableObject {
     
-    var photosUseCase = PhotosUseCase(dataSource: MockPhotosImpl())
+    var photosUseCase = PhotosUseCase(source: UnsplashPhotosImpl(), cache: CachePhotosImpl())
     @Published var photos: [PhotoEntity] = []
     @Published var errorMessage = ""
     @Published var hasError = false
@@ -19,6 +19,7 @@ class SearchPhotosViewModel: ObservableObject {
         do {
             photos = try await photosUseCase.getSearchPhotos(query)
             errorMessage = ""
+            hasError = false
         } catch {
             photos = []
             errorMessage = error.localizedDescription

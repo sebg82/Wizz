@@ -9,25 +9,65 @@ import Foundation
 
 struct PhotosUseCase {
 
-    let dataSource: PhotosInterface
+    let source: FetchPhotosInterface
+    let cache: FetchPhotosInterface & SavePhotosInterface
     
     func getPhotos() async throws -> [PhotoEntity] {
-        try await dataSource.getPhotos()
         // implements business logic here
+        // Get the photos from the provider
+        if let photos = try? await source.fetchPhotos() {
+            
+            // Save the photos in the device
+            try? cache.savePhotos(photos)
+            return photos
+        }
+
+        // Else return the photos from the cache
+        return try await cache.fetchPhotos()
     }
 
     func getUserPhotos(_ userId: String) async throws -> [PhotoEntity] {
-        try await dataSource.getUserPhotos(userId)
         // implements business logic here
+        
+        // Get the photos from the provider
+        if let photos = try? await source.fetchUserPhotos(userId) {
+            
+            // Save the photos in the device
+            try? cache.saveUserPhotos(photos)
+            return photos
+        }
+
+        // Else return the photos from the cache
+        return try await cache.fetchUserPhotos(userId)
     }
 
     func getPhotoStatistics(_ photoId: String) async throws -> PhotoStatisticsEntity {
-        try await dataSource.getPhotoStatistics(photoId)
         // implements business logic here
+
+        // Get the photos from the provider
+        if let statistics = try? await source.fetchPhotoStatistics(photoId) {
+            
+            // Save the statistics in the device
+            try? cache.savePhotoStatistics(statistics)
+            return statistics
+        }
+
+        // Else return the statistics from the cache
+        return try await cache.fetchPhotoStatistics(photoId)
     }
 
     func getSearchPhotos(_ query: String) async throws -> [PhotoEntity] {
-        try await dataSource.getSearchPhotos(query)
         // implements business logic here
+        
+        // Get the photos from the provider
+        if let photos = try? await source.fetchSearchPhotos(query) {
+            
+            // Save the photos in the device
+            try? cache.saveSearchPhotos(photos)
+            return photos
+        }
+
+        // Else return the photos from the cache
+        return try await cache.fetchSearchPhotos(query)
     }
 }

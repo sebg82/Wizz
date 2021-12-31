@@ -7,35 +7,37 @@
 
 import Foundation
 
-struct UnsplashPhotosImpl : PhotosInterface {
+struct UnsplashPhotosImpl {}
+
+extension UnsplashPhotosImpl: FetchPhotosInterface {
     
-    func getPhotos() async throws -> [PhotoEntity] {
-        let result: [PhotoData] = try await getData("photos", query: [:])
+    func fetchPhotos() async throws -> [PhotoEntity] {
+        let result: [PhotoData] = try await getObject(from: "photos", query: [:])
         return result.compactMap { $0.toEntity() }
     }
     
-    func getUserPhotos(_ userId: String) async throws -> [PhotoEntity] {
-        let result: [PhotoData] = try await getData("users/\(userId)/photos", query: [:])
+    func fetchUserPhotos(_ userId: String) async throws -> [PhotoEntity] {
+        let result: [PhotoData] = try await getObject(from: "users/\(userId)/photos", query: [:])
         return result.compactMap { $0.toEntity() }
     }
     
-    func getPhotoStatistics(_ photoId: String) async throws -> PhotoStatisticsEntity {
-        let result: PhotoStatisticsData = try await getData("photos/\(photoId)/statistics", query: [:])
+    func fetchPhotoStatistics(_ photoId: String) async throws -> PhotoStatisticsEntity {
+        let result: PhotoStatisticsData = try await getObject(from: "photos/\(photoId)/statistics", query: [:])
         return result.toEntity()
     }
     
-    func getSearchPhotos(_ query: String) async throws -> [PhotoEntity] {
-        let result: SearchPhotosData = try await getData("search/photos", query: ["query": query])
+    func fetchSearchPhotos(_ query: String) async throws -> [PhotoEntity] {
+        let result: SearchPhotosData = try await getObject(from: "search/photos", query: ["query": query])
         return result.results.compactMap { $0.toEntity() }
     }
 
-    private func getData<Element: Decodable>(_ stringUrl: String, query: [String : Any]) async throws -> Element {
-        let request = try urlRequest(relativePath: stringUrl, queryParameters: query)
+    private func getObject<Element: Decodable>(from relativePath: String, query: [String : Any]) async throws -> Element {
+        let request = try urlRequest(relativePath: relativePath, queryParameters: query)
         let (data, _) = try await URLSession.shared.data(for: request)
-        
-        let object = try JSONSerialization.jsonObject(with: data, options: [])
-        let data2 = try JSONSerialization.data(withJSONObject: object, options: [.prettyPrinted])
-        print( NSString(data: data2, encoding: String.Encoding.utf8.rawValue)! )
+//
+//        let object = try JSONSerialization.jsonObject(with: data, options: [])
+//        let data2 = try JSONSerialization.data(withJSONObject: object, options: [.prettyPrinted])
+//        print( NSString(data: data2, encoding: String.Encoding.utf8.rawValue)! )
         
         let result = try JSONDecoder().decode(Element.self, from: data)
         return result
@@ -54,4 +56,5 @@ struct UnsplashPhotosImpl : PhotosInterface {
         request.addValue("Client-ID Ld04xNk1TffjnlgPweCsX1H0ZqVbDIABzdqPCnXUrs4", forHTTPHeaderField: "Authorization")
         return request
     }
+    
 }
