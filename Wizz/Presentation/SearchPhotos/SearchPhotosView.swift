@@ -8,15 +8,9 @@
 import SwiftUI
 
 struct SearchPhotosView: View {
-    
-    @State private var searchText = ""
-    @StateObject var vm: SearchPhotosViewModel
 
-    var searchResults: [PhotoEntity] {
-//        await vm.getSearchPhotos(searchText)
-//        return vm.photos
-        return []
-    }
+    @StateObject var vm: SearchPhotosViewModel
+    @State private var query = ""
     
     var body: some View {
         NavigationView {
@@ -24,7 +18,9 @@ struct SearchPhotosView: View {
                 ForEach(vm.photos) { photo in
                     ZStack {
                         NavigationLink(destination:
-                            UserPhotosView(vm: UserPhotosViewModel())
+                            UserPhotosView(vm: UserPhotosViewModel(photosUseCase: vm.photosUseCase),
+                                           userId: photo.user.username,
+                                           photoId: photo.id)
                         ) {
                             EmptyView()
                         }
@@ -32,16 +28,19 @@ struct SearchPhotosView: View {
                         .buttonStyle(PlainButtonStyle())
                         
                         PhotoRow(photo: photo)
-                            .listRowSeparator(.hidden)
                     }
+                    .listRowSeparator(.hidden)
                 }
             }
             .listStyle(.inset)
             .navigationBarTitle("Search")
-            .searchable(text: $searchText, placement: .navigationBarDrawer(displayMode: .always), prompt: "Photos")
+            .searchable(text: $query, placement: .navigationBarDrawer(displayMode: .always), prompt: "Photos")
+            .onChange(of: query) { newQuery in
+                Task { await vm.getSearchPhotos(query) }
+            }
         }
         .task {
-           await vm.getSearchPhotos("sky")
+            await vm.getSearchPhotos(query)
         }
         .alert("Error", isPresented: $vm.hasError) {
         } message: {
@@ -51,7 +50,9 @@ struct SearchPhotosView: View {
 }
 
 struct SearchPhotosView_Previews: PreviewProvider {
+    static var photosUseCase = PhotosUseCase(source: UnsplashPhotosImpl(), cache: CachePhotosImpl())
+
     static var previews: some View {
-        SearchPhotosView(vm: SearchPhotosViewModel())
+        SearchPhotosView(vm: SearchPhotosViewModel(photosUseCase: photosUseCase))
     }
 }

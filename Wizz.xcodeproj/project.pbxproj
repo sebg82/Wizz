@@ -105,8 +105,6 @@
 				090243D7277DBA8F001C76A7 /* Presentation */,
 				090243F1277DED1D001C76A7 /* BusinessLogic */,
 				090243DC277DBDFE001C76A7 /* Data */,
-				090243FF277DF9F7001C76A7 /* Core */,
-				090243EC277DCB74001C76A7 /* Extensions */,
 				090243D8277DBA99001C76A7 /* Resources */,
 				090243CD277DB8D3001C76A7 /* Preview Content */,
 			);
@@ -133,10 +131,10 @@
 			isa = PBXGroup;
 			children = (
 				090243C9277DB8D0001C76A7 /* ContentView.swift */,
-				0902443A277F996D001C76A7 /* PhotoRow.swift */,
 				090243D9277DBBB3001C76A7 /* TodaysList */,
 				090243DA277DBBC0001C76A7 /* UserPhotos */,
 				090243DB277DBDE2001C76A7 /* SearchPhotos */,
+				0902443C277FDF24001C76A7 /* Cell */,
 			);
 			path = Presentation;
 			sourceTree = "<group>";
@@ -180,26 +178,19 @@
 			isa = PBXGroup;
 			children = (
 				09024422277E11DC001C76A7 /* Models */,
-				090243E7277DCA7C001C76A7 /* DataSource */,
+				090243E7277DCA7C001C76A7 /* Sources */,
 			);
 			path = Data;
 			sourceTree = "<group>";
 		};
-		090243E7277DCA7C001C76A7 /* DataSource */ = {
+		090243E7277DCA7C001C76A7 /* Sources */ = {
 			isa = PBXGroup;
 			children = (
 				09024436277F38DA001C76A7 /* Cache */,
 				09024419277E0582001C76A7 /* Mock */,
 				09024418277E056D001C76A7 /* Unsplash */,
 			);
-			path = DataSource;
-			sourceTree = "<group>";
-		};
-		090243EC277DCB74001C76A7 /* Extensions */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			path = Extensions;
+			path = Sources;
 			sourceTree = "<group>";
 		};
 		090243F1277DED1D001C76A7 /* BusinessLogic */ = {
@@ -239,13 +230,6 @@
 			path = UseCases;
 			sourceTree = "<group>";
 		};
-		090243FF277DF9F7001C76A7 /* Core */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			path = Core;
-			sourceTree = "<group>";
-		};
 		09024418277E056D001C76A7 /* Unsplash */ = {
 			isa = PBXGroup;
 			children = (
@@ -283,6 +267,14 @@
 				09024437277F3957001C76A7 /* CachePhotosImpl.swift */,
 			);
 			path = Cache;
+			sourceTree = "<group>";
+		};
+		0902443C277FDF24001C76A7 /* Cell */ = {
+			isa = PBXGroup;
+			children = (
+				0902443A277F996D001C76A7 /* PhotoRow.swift */,
+			);
+			path = Cell;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */

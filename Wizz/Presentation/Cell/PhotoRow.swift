@@ -40,14 +40,12 @@ struct PhotoRow: View {
 
                     VStack {
                         Text("\(photo.user.username)")
-                            .font(.caption)
-                            .foregroundColor(.white)
-                            .frame(minWidth: 0, maxWidth: .infinity, alignment: .bottomLeading)
+                            .frame(maxWidth: .infinity, alignment: .bottomLeading)
                         Text("\(photo.likes) likes")
-                            .font(.caption)
-                            .foregroundColor(.white)
-                            .frame(minWidth: 0, maxWidth: .infinity, alignment: .bottomLeading)
+                            .frame(maxWidth: .infinity, alignment: .bottomLeading)
                     }
+                    .font(.caption)
+                    .foregroundColor(.white)
                 }
                 .padding(10)
             }

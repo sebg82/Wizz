@@ -25,7 +25,9 @@ struct TodaysListView: View {
                 ForEach(vm.photos) { photo in
                     ZStack {
                         NavigationLink(destination:
-                            UserPhotosView(vm: UserPhotosViewModel())
+                                        UserPhotosView(vm: UserPhotosViewModel(photosUseCase: vm.photosUseCase),
+                                           userId: photo.user.username,
+                                           photoId: photo.id)
                         ) {
                             EmptyView()
                         }
@@ -33,8 +35,8 @@ struct TodaysListView: View {
                         .buttonStyle(PlainButtonStyle())
                         
                         PhotoRow(photo: photo)
-                            .listRowSeparator(.hidden)
                     }
+                    .listRowSeparator(.hidden)
                 }
             }
             .listStyle(.inset)
@@ -51,7 +53,9 @@ struct TodaysListView: View {
 }
 
 struct TodaysListView_Previews: PreviewProvider {
+    static var photosUseCase = PhotosUseCase(source: UnsplashPhotosImpl(), cache: CachePhotosImpl())
+
     static var previews: some View {
-        TodaysListView(vm: TodaysListViewModel())
+        TodaysListView(vm: TodaysListViewModel(photosUseCase: photosUseCase))
     }
 }

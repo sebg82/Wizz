@@ -10,16 +10,18 @@ import Foundation
 @MainActor
 class TodaysListViewModel: ObservableObject {
 
-    var photosUseCase = PhotosUseCase(source: MockPhotosImpl(), cache: CachePhotosImpl())
+    var photosUseCase: PhotosUseCase
     @Published var photos: [PhotoEntity] = []
     @Published var errorMessage = ""
     @Published var hasError = false
     
+    init(photosUseCase: PhotosUseCase) {
+        self.photosUseCase = photosUseCase
+    }
+    
     func getPhotos() async {
         do {
             photos = try await photosUseCase.getPhotos()
-//            let userPhotos = try await photosUseCase.getUserPhotos("xps")
-//            let photosStatistics = try await photosUseCase.getPhotoStatistics("g2E2NQ5SWSU")
             errorMessage = ""
             hasError = false
         } catch {

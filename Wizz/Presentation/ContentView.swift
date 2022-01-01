@@ -9,6 +9,7 @@ import SwiftUI
 
 struct ContentView: View {
     @State private var selection: Tab = .today
+    var photosUseCase = PhotosUseCase(source: UnsplashPhotosImpl(), cache: CachePhotosImpl())
 
     enum Tab {
         case today
@@ -17,13 +18,14 @@ struct ContentView: View {
 
     var body: some View {
         TabView(selection: $selection) {
-            TodaysListView(vm: TodaysListViewModel())
+            TodaysListView(vm: TodaysListViewModel(photosUseCase: photosUseCase))
                 .tabItem {
                     Label("Today", systemImage: "doc.text.image")
                 }
                 .tag(Tab.today)
 
-            SearchPhotosView(vm: SearchPhotosViewModel())
+            SearchPhotosView(//searchPhotos: .default,
+                             vm: SearchPhotosViewModel(photosUseCase: photosUseCase))
                 .tabItem {
                     Label("Search", systemImage: "magnifyingglass")
                 }
@@ -34,6 +36,6 @@ struct ContentView: View {
 
 struct ContentView_Previews: PreviewProvider {
     static var previews: some View {
-        ContentView()/*.environmentObject(ModelData())*/
+        ContentView()
     }
 }
