@@ -9,6 +9,9 @@ import SwiftUI
 
 struct ContentView: View {
     @State private var selection: Tab = .today
+
+    // To use the mocked data instead of the provider's data,
+    // replace UnsplashPhotosImpl() by MockPhotosImpl()
     var photosUseCase = PhotosUseCase(source: UnsplashPhotosImpl(), cache: CachePhotosImpl())
 
     enum Tab {
@@ -24,8 +27,7 @@ struct ContentView: View {
                 }
                 .tag(Tab.today)
 
-            SearchPhotosView(//searchPhotos: .default,
-                             vm: SearchPhotosViewModel(photosUseCase: photosUseCase))
+            SearchPhotosView(vm: SearchPhotosViewModel(photosUseCase: photosUseCase))
                 .tabItem {
                     Label("Search", systemImage: "magnifyingglass")
                 }

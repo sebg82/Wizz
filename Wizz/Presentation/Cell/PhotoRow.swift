@@ -53,7 +53,6 @@ struct PhotoRow: View {
         }
         .clipped()
         .aspectRatio(1, contentMode: .fit)
-        .padding(.vertical, 20)
     }
 }
 
