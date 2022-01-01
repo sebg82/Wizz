@@ -42,6 +42,7 @@ struct UserPhotosView: View {
                 if let nbViews = vm.statistics?.views {
                     HStack {
                         Image("views")
+                            .renderingMode(.template)
                         Text("\(nbViews) views")
                             .frame(maxWidth: .infinity, alignment: .bottomLeading)
                     }
@@ -50,13 +51,14 @@ struct UserPhotosView: View {
                 if let nbDownloads = vm.statistics?.downloads {
                     HStack {
                         Image("download")
+                            .renderingMode(.template)
                         Text("\(nbDownloads) downloads")
                             .frame(maxWidth: .infinity, alignment: .bottomLeading)
                     }
                 }
             }
             .font(.system(size: 13, weight: .bold, design: .default))
-            .foregroundColor(Color(.systemGray2))
+            .foregroundColor(Color(.systemGray))
             .padding(.horizontal, 20)
         }
         .navigationBarTitleDisplayMode(.inline)

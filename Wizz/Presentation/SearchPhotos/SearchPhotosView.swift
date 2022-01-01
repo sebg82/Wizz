@@ -29,8 +29,8 @@ struct SearchPhotosView: View {
                         
                         PhotoRow(photo: photo)
                     }
-                    .listRowSeparator(.hidden)
                 }
+                .listRowSeparator(.hidden)
             }
             .listStyle(.inset)
             .navigationBarTitle("Search")

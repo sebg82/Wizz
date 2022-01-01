@@ -7,6 +7,15 @@
 
 import SwiftUI
 
+extension AnyTransition {
+    static var moveAndFade: AnyTransition {
+        .asymmetric(
+            insertion: .move(edge: .bottom).combined(with: .opacity),
+            removal: .scale.combined(with: .opacity)
+        )
+    }
+}
+
 struct TodaysListView: View {
     @StateObject var vm: TodaysListViewModel
     @State private var todayDate: String = {
@@ -19,8 +28,6 @@ struct TodaysListView: View {
         NavigationView {
             List {
                 Text("\(todayDate)")
-                    .font(.system(size: 13, weight: .bold, design: .default))
-                    .foregroundColor(Color(.systemGray2))
                     .listRowSeparator(.hidden)
                 ForEach(vm.photos) { photo in
                     ZStack {
@@ -28,6 +35,8 @@ struct TodaysListView: View {
                                         UserPhotosView(vm: UserPhotosViewModel(photosUseCase: vm.photosUseCase),
                                            userId: photo.user.username,
                                            photoId: photo.id)
+//                                            .transition(.move(edge: .top))
+//                                            .animation(.default)
                         ) {
                             EmptyView()
                         }
@@ -36,10 +45,12 @@ struct TodaysListView: View {
                         
                         PhotoRow(photo: photo)
                     }
-                    .listRowSeparator(.hidden)
                 }
+                .listRowSeparator(.hidden)
             }
             .listStyle(.inset)
+            .font(.system(size: 13, weight: .bold, design: .default))
+            .foregroundColor(Color(.systemGray))
             .navigationBarTitle("Today")
         }
         .task {

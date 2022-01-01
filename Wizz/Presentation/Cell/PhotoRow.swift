@@ -44,8 +44,9 @@ struct PhotoRow: View {
                         Text("\(photo.likes) likes")
                             .frame(maxWidth: .infinity, alignment: .bottomLeading)
                     }
-                    .font(.caption)
+                    .font(.system(size: 11, weight: .bold, design: .default))
                     .foregroundColor(.white)
+                    .shadow(color: .gray, radius: 2)
                 }
                 .padding(10)
             }
