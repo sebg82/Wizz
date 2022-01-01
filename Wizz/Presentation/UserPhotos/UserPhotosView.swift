@@ -9,9 +9,9 @@ import SwiftUI
 
 struct UserPhotosView: View {
     
+    @AppStorage("showDetail") var showDetail = false
     @StateObject var vm: UserPhotosViewModel
-    var userId: String
-    var photoId: String
+    @State var photo: PhotoEntity
     
     let columns = [
         GridItem(.flexible(), spacing: 0),
@@ -19,53 +19,72 @@ struct UserPhotosView: View {
     ]
     
     var body: some View {
-        ScrollView {
+        ZStack {
+            
+            ScrollView {
 
-            LazyVGrid(columns: columns, spacing: 0) {
-                ForEach(vm.photos){ photo in
-                    AsyncImage(url: URL(string: photo.urlRegular)) { image in
-                        image.resizable()
-                            .frame(alignment: .center)
-                    } placeholder: {
-                        Color.clear
+                LazyVGrid(columns: columns, spacing: 0) {
+                    ForEach(vm.photos){ photo in
+                        AsyncImage(url: URL(string: photo.urlRegular)) { image in
+                            image.resizable()
+                                .frame(alignment: .center)
+                        } placeholder: {
+                            Color.clear
+                        }
+                        .padding(5)
+                        .aspectRatio(1, contentMode: .fit)
                     }
-                    .padding(5)
-                    .aspectRatio(1, contentMode: .fit)
                 }
-            }
 
+                VStack {
+                    Text("Picture Statistics")
+                        .font(.system(size: 17))
+                        .frame(maxWidth: .infinity, alignment: .bottomLeading)
+                    
+                    if let nbViews = vm.statistics?.views {
+                        HStack {
+                            Image("views")
+                                .renderingMode(.template)
+                            Text("\(nbViews) views")
+                                .frame(maxWidth: .infinity, alignment: .bottomLeading)
+                        }
+                    }
+                    
+                    if let nbDownloads = vm.statistics?.downloads {
+                        HStack {
+                            Image("download")
+                                .renderingMode(.template)
+                            Text("\(nbDownloads) downloads")
+                                .frame(maxWidth: .infinity, alignment: .bottomLeading)
+                        }
+                    }
+                }
+                .font(.system(size: 13, weight: .bold, design: .default))
+                .foregroundColor(Color(.systemGray))
+                .padding(.horizontal, 20)
+            }
+            
             VStack {
-                Text("Picture Statistics")
-                    .font(.system(size: 17))
-                    .frame(maxWidth: .infinity, alignment: .bottomLeading)
-                
-                if let nbViews = vm.statistics?.views {
-                    HStack {
-                        Image("views")
-                            .renderingMode(.template)
-                        Text("\(nbViews) views")
-                            .frame(maxWidth: .infinity, alignment: .bottomLeading)
-                    }
+                HStack {
+                    Spacer()
+                    Image("close")
+                        .resizable()
+                        .background(.white)
+                        .frame(width: 40, height: 40, alignment: .center)
+                        .cornerRadius(20)
+                        .padding(10)
+                        .onTapGesture {
+                            withAnimation(.easeInOut(duration: 2)) {
+                                showDetail.toggle()
+                            }
+                        }
                 }
-                
-                if let nbDownloads = vm.statistics?.downloads {
-                    HStack {
-                        Image("download")
-                            .renderingMode(.template)
-                        Text("\(nbDownloads) downloads")
-                            .frame(maxWidth: .infinity, alignment: .bottomLeading)
-                    }
-                }
+                Spacer()
             }
-            .font(.system(size: 13, weight: .bold, design: .default))
-            .foregroundColor(Color(.systemGray))
-            .padding(.horizontal, 20)
         }
-        .navigationBarTitleDisplayMode(.inline)
-//        .navigationBarHidden(true)
         .task {
-            await vm.getUserPhotos(userId)
-            await vm.getPhotoStatistics(photoId)
+            await vm.getUserPhotos(photo.user.username)
+            await vm.getPhotoStatistics(photo.id)
         }
         .alert("Error", isPresented: $vm.hasError) {
         } message: {
@@ -79,8 +98,12 @@ struct UserPhotosView_Previews: PreviewProvider {
 
     static var previews: some View {
         UserPhotosView(vm: UserPhotosViewModel(photosUseCase: photosUseCase),
-                       userId: "2DC3GyeqWjI",
-                       photoId: "g2E2NQ5SWSU")
+                       photo: PhotoEntity(id: "g2E2NQ5SWSU",
+                                          user: UserEntity(id: "",
+                                                           username: "2DC3GyeqWjI",
+                                                           profileImageMedium: ""),
+                                          urlRegular: "",
+                                          likes: 0))
     }
 }
 

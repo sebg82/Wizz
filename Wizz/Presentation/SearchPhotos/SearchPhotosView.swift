@@ -11,40 +11,41 @@ struct SearchPhotosView: View {
 
     @StateObject var vm: SearchPhotosViewModel
     @State private var query = ""
+    @AppStorage("showDetail") var showDetail = false
+    @State private var selectedPhoto: PhotoEntity?
     
     var body: some View {
-        NavigationView {
-            List {
-                ForEach(vm.photos) { photo in
-                    ZStack {
-                        NavigationLink(destination:
-                            UserPhotosView(vm: UserPhotosViewModel(photosUseCase: vm.photosUseCase),
-                                           userId: photo.user.username,
-                                           photoId: photo.id)
-                        ) {
-                            EmptyView()
+        ZStack {
+
+            if showDetail, let selectedPhoto = selectedPhoto {
+                UserPhotosView(vm: UserPhotosViewModel(photosUseCase: vm.photosUseCase),
+                               photo: selectedPhoto)
+//                .transition(.moveAndFade)
+//                .animation(.default)
+            
+            } else {
+            
+                NavigationView {
+                    List {
+                        ForEach(vm.photos) { photo in
+                            PhotoRow(photo: photo)
+                                .onTapGesture {
+                                    withAnimation(.easeInOut(duration: 2)) {
+                                        selectedPhoto = photo
+                                        showDetail.toggle()
+                                    }
+                                }
                         }
-                        .opacity(0.0)
-                        .buttonStyle(PlainButtonStyle())
-                        
-                        PhotoRow(photo: photo)
+                        .listRowSeparator(.hidden)
+                    }
+                    .listStyle(.inset)
+                    .navigationBarTitle("Search")
+                    .searchable(text: $query, placement: .navigationBarDrawer(displayMode: .always), prompt: "Photos")
+                    .onChange(of: query) { newQuery in
+                        Task { await vm.getSearchPhotos(query) }
                     }
                 }
-                .listRowSeparator(.hidden)
             }
-            .listStyle(.inset)
-            .navigationBarTitle("Search")
-            .searchable(text: $query, placement: .navigationBarDrawer(displayMode: .always), prompt: "Photos")
-            .onChange(of: query) { newQuery in
-                Task { await vm.getSearchPhotos(query) }
-            }
-        }
-        .task {
-            await vm.getSearchPhotos(query)
-        }
-        .alert("Error", isPresented: $vm.hasError) {
-        } message: {
-            Text(vm.errorMessage)
         }
     }
 }
