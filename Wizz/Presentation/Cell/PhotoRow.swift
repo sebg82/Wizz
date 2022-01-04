@@ -8,64 +8,68 @@
 import SwiftUI
 
 struct PhotoRow: View {
+    var namespace: Namespace.ID
     var photo: PhotoEntity
 
     var body: some View {
-        ZStack{
+        VStack {
+            Spacer()
+            HStack {
+                AsyncImage(url: URL(string: photo.user.profileImageMedium)) { image in
+                    image
+                        .resizable()
+                        .frame(width: 50, height: 50, alignment: .center)
+                        .cornerRadius(25)
+                        .overlay(RoundedRectangle(cornerRadius: 25)
+                                    .stroke(.white, lineWidth: 2))
 
-            AsyncImage(url: URL(string: photo.urlRegular)) { image in
-                image.resizable()
-                    .frame(alignment: .center)
-                    .cornerRadius(15)
-                    .shadow(radius: 5)
-            } placeholder: {
-                Color.clear
-            }
-            .padding(10)
-
-            VStack {
-                Spacer()
-                HStack {
-                    AsyncImage(url: URL(string: photo.user.profileImageMedium)) { image in
-                        image
-                            .resizable()
-                            .frame(width: 50, height: 50, alignment: .center)
-                            .cornerRadius(25)
-                            .overlay(RoundedRectangle(cornerRadius: 25)
-                                        .stroke(.white, lineWidth: 2))
-                        
-                    } placeholder: {
-                        Color.clear
-                    }
-
-                    VStack {
-                        Text("\(photo.user.username)")
-                            .frame(maxWidth: .infinity, alignment: .bottomLeading)
-                        Text("\(photo.likes) likes")
-                            .frame(maxWidth: .infinity, alignment: .bottomLeading)
-                    }
-                    .font(.system(size: 11, weight: .bold, design: .default))
-                    .foregroundColor(.white)
-                    .shadow(color: .gray, radius: 2)
+                } placeholder: {
+                    Color.clear
                 }
-                .padding(10)
+
+                VStack {
+                    Text("\(photo.user.username)")
+                        .frame(maxWidth: .infinity, alignment: .bottomLeading)
+                    Text("\(photo.id) likes")
+                        .frame(maxWidth: .infinity, alignment: .bottomLeading)
+                }
+                .font(.footnote.weight(.bold))
+                .foregroundColor(.white)
+                .shadow(color: .gray, radius: 2)
             }
             .padding(10)
         }
-        .clipped()
-        .aspectRatio(1, contentMode: .fit)
+        .background(
+            Image("tezos")
+                .resizable()
+                .frame(alignment: .center)
+                .cornerRadius(15)
+                .shadow(radius: 5)
+                .matchedGeometryEffect(id: photo.id, in: namespace)
+//            AsyncImage(url: URL(string: photo.urlRegular)) { image in
+//                image
+//                    .resizable()
+//                    .frame(alignment: .center)
+//                    .cornerRadius(15)
+//                    .shadow(radius: 5)
+//                    .matchedGeometryEffect(id: photo.id, in: namespace)
+//            } placeholder: {
+//                Color.clear
+//            }
+        )
+//        .mask {
+//            RoundedRectangle(cornerRadius: 15, style: .continuous)
+//                .matchedGeometryEffect(id: "mask", in: namespace)
+//        }
+        .aspectRatio(1, contentMode: .fill)
     }
 }
 
 struct PhotoRow_Previews: PreviewProvider {
-    static var photo = PhotoEntity(id: "g2E2NQ5SWSU",
-                                   user: UserEntity(id: "2DC3GyeqWjI",
-                                                    username: "xps",
-                                                    profileImageMedium: "https://images.unsplash.com/profile-1600096866391-b09a1a53451aimage?ixlib=rb-1.2.1&q=80&fm=jpg&crop=faces&cs=tinysrgb&fit=crop&h=64&w=64"),
-                                   urlRegular: "https://images.unsplash.com/photo-1593642632559-0c6d3fc62b89?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=MnwyODcwNjZ8MXwxfGFsbHwxfHx8fHx8Mnx8MTY0MDg2NTgwNQ&ixlib=rb-1.2.1&q=80&w=1080",
-                                   likes: 2356)
+    @Namespace static var namespace
+
     static var previews: some View {
-        PhotoRow(photo: photo)
+        PhotoRow(namespace: namespace, photo: .mock)
             .previewLayout(.fixed(width: 300, height: 400))
     }
 }

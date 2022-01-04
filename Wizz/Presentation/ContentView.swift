@@ -21,13 +21,13 @@ struct ContentView: View {
 
     var body: some View {
         TabView(selection: $selection) {
-            TodaysListView(vm: TodaysListViewModel(photosUseCase: photosUseCase))
+            TodaysListMasterDetailView(vm: TodaysListViewModel(photosUseCase: photosUseCase))
                 .tabItem {
                     Label("Today", systemImage: "doc.text.image")
                 }
                 .tag(Tab.today)
 
-            SearchPhotosView(vm: SearchPhotosViewModel(photosUseCase: photosUseCase))
+            SearchPhotosMasterDetailView(vm: SearchPhotosViewModel(photosUseCase: photosUseCase))
                 .tabItem {
                     Label("Search", systemImage: "magnifyingglass")
                 }
