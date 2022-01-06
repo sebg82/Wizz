@@ -10,19 +10,15 @@ import Foundation
 @MainActor
 class UserPhotosViewModel: ObservableObject {
     
-    var photosUseCase: PhotosUseCase
     @Published var statistics: PhotoStatisticsEntity?
     @Published var photos: [PhotoEntity] = []
     @Published var errorMessage = ""
     @Published var hasError = false
-    
-    init(photosUseCase: PhotosUseCase) {
-        self.photosUseCase = photosUseCase
-    }
+
 
     func getUserPhotos(_ userId: String) async {
         do {
-            photos = try await photosUseCase.getUserPhotos(userId)
+            photos = try await ContentView.photosUseCase.getUserPhotos(userId)
             errorMessage = ""
             hasError = false
         } catch {
@@ -34,7 +30,7 @@ class UserPhotosViewModel: ObservableObject {
     
     func getPhotoStatistics(_ photoId: String) async {
         do {
-            statistics = try await photosUseCase.getPhotoStatistics(photoId)
+            statistics = try await ContentView.photosUseCase.getPhotoStatistics(photoId)
             errorMessage = ""
             hasError = false
         } catch {

@@ -9,12 +9,9 @@ import SwiftUI
 
 struct UserPhotosView: View {
     
-    @StateObject var vm: UserPhotosViewModel
-    @State var photo: PhotoEntity
-    
+    @StateObject var vm = UserPhotosViewModel()
+    @Binding var selectedPhoto: PhotoEntity?
     var namespace: Namespace.ID
-    @Binding var showUserPhotos: Bool
-    
     let columns = [
         GridItem(.flexible(), spacing: 0),
         GridItem(.flexible(), spacing: 0)
@@ -26,9 +23,11 @@ struct UserPhotosView: View {
             scrollingPhotos
         }
         .task {
-            await vm.getUserPhotos(photo.user.username)
-            vm.photos.insert(photo, at: 0)
-            await vm.getPhotoStatistics(photo.id)
+            if let selectedPhoto = selectedPhoto {
+                await vm.getUserPhotos(selectedPhoto.user.username)
+                vm.photos.insert(selectedPhoto, at: 0)
+                await vm.getPhotoStatistics(selectedPhoto.id)
+            }
         }
         .alert("Error", isPresented: $vm.hasError) {
         } message: {
@@ -47,33 +46,33 @@ struct UserPhotosView: View {
 ////                Image("tezos")
 ////                    .resizable()
 ////                    .frame(alignment: .center)
-////                    .matchedGeometryEffect(id: photo.id, in: namespace)
+////                    .matchedGeometryEffect(id: selectedPhoto.id, in: namespace)
 ////                    .onTapGesture {
 ////                        withAnimation(.spring(response: 0.6, dampingFraction: 0.8)) {
-////                            showUserPhotos.toggle()
+////                            selectedPhoto = nil
 ////                        }
 ////                    }
-//                AsyncImage(url: URL(string: photo.urlRegular)) { image in
+//                AsyncImage(url: URL(string: selectedPhoto.urlRegular)) { image in
 //                    image
 //                        .resizable()
 //                        .frame(alignment: .center)
-//                        .matchedGeometryEffect(id: photo.id, in: namespace)
+//                        .matchedGeometryEffect(id: selectedPhoto.id, in: namespace)
 //                        .onTapGesture {
 //                            withAnimation(.spring(response: 0.6, dampingFraction: 0.8)) {
-//                                showUserPhotos.toggle()
+//                                selectedPhoto = nil
 //                            }
 //                        }
 ////                        .resizable()
 ////                        .frame(alignment: .center)
 //////                        .aspectRatio(contentMode: .fill)
-////                        .matchedGeometryEffect(id: photo.id, in: namespace)
+////                        .matchedGeometryEffect(id: selectedPhoto.id, in: namespace)
 //                } placeholder: {
 //                    Color.clear
 //                }
 //            )
 ////            .mask {
 ////                RoundedRectangle(cornerRadius: 30, style: .continuous)
-////                    .matchedGeometryEffect(id: "mask", in: namespace)
+////                    .matchedGeometryEffect(id: "mask", in:ContentView. namespace)
 ////            }
 ////            .overlay(
 ////                VStack(alignment: .leading, spacing: 12) {
@@ -111,7 +110,7 @@ struct UserPhotosView: View {
 ////                    .padding(20)
 ////            )
 //        }
-    }
+    } 
     
     var scrollingPhotos: some View {
         
@@ -119,22 +118,24 @@ struct UserPhotosView: View {
             
             LazyVGrid(columns: columns, spacing: 0) {
                 ForEach(vm.photos){ photo in
-//                    AsyncImage(url: URL(string: photo.urlRegular)) { image in
-//                        image.resizable()
-//                            .frame(alignment: .center)
-//                    } placeholder: {
-//                        Color.clear
-//                    }
-//                    .padding(5)
-//                    .aspectRatio(1, contentMode: .fit)
-                    
-                    Image("tezos")
-                        .resizable()
-                        .frame(alignment: .center)
-//                        .padding(5)
-                        .matchedGeometryEffect(id: photo.id, in: namespace)
-                        .aspectRatio(1, contentMode: .fit)
-                    Text(photo.id)
+                    if let selectedPhoto = selectedPhoto {
+    //                    AsyncImage(url: URL(string: selectedPhoto.urlRegular)) { image in
+    //                        image.resizable()
+    //                            .frame(alignment: .center)
+    //                    } placeholder: {
+    //                        Color.clear
+    //                    }
+    //                    .padding(5)
+    //                    .aspectRatio(1, contentMode: .fit)
+                        Image(uiImage: selectedPhoto.downloadImage() ?? UIImage())
+    //                    Image("tezos")
+                            .resizable()
+                            .frame(alignment: .center)
+    //                        .padding(5)
+                            .matchedGeometryEffect(id: selectedPhoto.id, in: namespace)
+                            .aspectRatio(1, contentMode: .fit)
+                        Text(selectedPhoto.id)
+                    }
                 }
             }
 
@@ -172,7 +173,7 @@ struct UserPhotosView: View {
     var closeButton: some View {
         Button {
             withAnimation(.spring(response: 0.6, dampingFraction: 0.8)) {
-                showUserPhotos.toggle()
+                selectedPhoto = nil
             }
         } label: {
             Image(systemName: "xmark")
@@ -189,13 +190,7 @@ struct UserPhotosView: View {
 
 struct UserPhotosView_Previews: PreviewProvider {
     @Namespace static var namespace
-    
-    static var photosUseCase = PhotosUseCase(source: UnsplashPhotosImpl(), cache: CachePhotosImpl())
-    
     static var previews: some View {
-        UserPhotosView(vm: UserPhotosViewModel(photosUseCase: photosUseCase),
-                       photo: .mock,
-                       namespace: namespace,
-                       showUserPhotos: .constant(true))
+        UserPhotosView(selectedPhoto: .constant(.mock), namespace: namespace)
     }
 }

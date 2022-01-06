@@ -9,16 +9,14 @@ import SwiftUI
 
 struct TodaysListView: View {
     
-    @StateObject var vm: TodaysListViewModel
+    @StateObject var vm = TodaysListViewModel()
     @State private var todayDate: String = {
         let dateFormatter = DateFormatter()
         dateFormatter.dateFormat = "EEEE MMM d yyyy"
         return dateFormatter.string(from: Date()).uppercased()
     } ()
     @Binding var selectedPhoto: PhotoEntity?
-
     var namespace: Namespace.ID
-    @Binding var showUserPhotos: Bool
 
     var body: some View {
         
@@ -34,11 +32,10 @@ struct TodaysListView: View {
                 .listRowSeparator(.hidden)
 
             ForEach(vm.photos) { photo in
-                PhotoRow(namespace: namespace, photo: photo)
+                PhotoRow(photo: photo, namespace: namespace)
                     .onTapGesture {
                         withAnimation(.spring(response: 0.6, dampingFraction: 0.8)) {
                             selectedPhoto = photo
-                            showUserPhotos.toggle()
                         }
                     }
             }
@@ -57,13 +54,7 @@ struct TodaysListView: View {
 
 struct TodaysListView_Previews: PreviewProvider {
     @Namespace static var namespace
-
-    static var vm = TodaysListViewModel(photosUseCase: PhotosUseCase(source: UnsplashPhotosImpl(), cache: CachePhotosImpl()))
-    
     static var previews: some View {
-        TodaysListView(vm: vm,
-                       selectedPhoto: .constant(.mock),
-                       namespace: namespace,
-                       showUserPhotos: .constant(true))
+        TodaysListView(selectedPhoto: .constant(.mock), namespace: namespace)
     }
 }

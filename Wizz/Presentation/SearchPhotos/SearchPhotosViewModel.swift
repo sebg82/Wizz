@@ -10,18 +10,13 @@ import Foundation
 @MainActor
 class SearchPhotosViewModel: ObservableObject {
     
-    var photosUseCase: PhotosUseCase
     @Published var photos: [PhotoEntity] = []
     @Published var errorMessage = ""
     @Published var hasError = false
     
-    init(photosUseCase: PhotosUseCase) {
-        self.photosUseCase = photosUseCase
-    }
-
     func getSearchPhotos(_ query: String) async {
         do {
-            photos = try await photosUseCase.getSearchPhotos(query)
+            photos = try await ContentView.photosUseCase.getSearchPhotos(query)
             errorMessage = ""
             hasError = false
         } catch {

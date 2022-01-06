@@ -8,8 +8,8 @@
 import SwiftUI
 
 struct PhotoRow: View {
-    var namespace: Namespace.ID
     var photo: PhotoEntity
+    var namespace: Namespace.ID
 
     var body: some View {
         VStack {
@@ -40,22 +40,24 @@ struct PhotoRow: View {
             .padding(10)
         }
         .background(
-            Image("tezos")
-                .resizable()
-                .frame(alignment: .center)
-                .cornerRadius(15)
-                .shadow(radius: 5)
-                .matchedGeometryEffect(id: photo.id, in: namespace)
-//            AsyncImage(url: URL(string: photo.urlRegular)) { image in
-//                image
-//                    .resizable()
-//                    .frame(alignment: .center)
-//                    .cornerRadius(15)
-//                    .shadow(radius: 5)
-//                    .matchedGeometryEffect(id: photo.id, in: namespace)
-//            } placeholder: {
-//                Color.clear
-//            }
+//            Image(uiImage: photo.downloadImage() ?? UIImage())
+////            Image("tezos")
+//                .resizable()
+//                .frame(alignment: .center)
+//                .cornerRadius(15)
+//                .shadow(radius: 5)
+//                .matchedGeometryEffect(id: photo.id, in: namespace)
+
+            AsyncImage(url: URL(string: photo.urlRegular)) { image in
+                image
+                    .resizable()
+                    .frame(alignment: .center)
+                    .cornerRadius(15)
+                    .shadow(radius: 5)
+                    .matchedGeometryEffect(id: photo.id, in: namespace)
+            } placeholder: {
+                Color.clear
+            }
         )
 //        .mask {
 //            RoundedRectangle(cornerRadius: 15, style: .continuous)
@@ -67,9 +69,8 @@ struct PhotoRow: View {
 
 struct PhotoRow_Previews: PreviewProvider {
     @Namespace static var namespace
-
     static var previews: some View {
-        PhotoRow(namespace: namespace, photo: .mock)
+        PhotoRow(photo: .mock, namespace: namespace)
             .previewLayout(.fixed(width: 300, height: 400))
     }
 }

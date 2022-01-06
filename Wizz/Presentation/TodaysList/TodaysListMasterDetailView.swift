@@ -9,38 +9,27 @@ import SwiftUI
 
 struct TodaysListMasterDetailView: View {
 
-    @StateObject var vm: TodaysListViewModel
-    @State private var selectedPhoto: PhotoEntity?
-
-    @Namespace var namespace
-    @State var showUserPhotos = false
+    @State var selectedPhoto: PhotoEntity?
+    @Namespace private var namespace
     
     var body: some View {
         ZStack {
-            if showUserPhotos {
-                UserPhotosView(vm: UserPhotosViewModel(photosUseCase: vm.photosUseCase),
-                               photo: selectedPhoto!,
-                               namespace: namespace,
-                               showUserPhotos: $showUserPhotos)
+            if selectedPhoto != nil {
+                UserPhotosView(selectedPhoto: $selectedPhoto, namespace: namespace)
                     .onTapGesture {
                         withAnimation(.spring(response: 0.6, dampingFraction: 0.8)) {
-                            showUserPhotos.toggle()
+                            selectedPhoto = nil
                         }
                     }
-            } else {
-                TodaysListView(vm: vm,
-                               selectedPhoto: $selectedPhoto,
-                               namespace: namespace,
-                               showUserPhotos: $showUserPhotos)
+            } else { 
+                TodaysListView(selectedPhoto: $selectedPhoto, namespace: namespace)
             }
         }
     }
 }
 
 struct TodaysListMasterDetailView_Previews: PreviewProvider {
-    static var photosUseCase = PhotosUseCase(source: UnsplashPhotosImpl(), cache: CachePhotosImpl())
-
     static var previews: some View {
-        TodaysListMasterDetailView(vm: TodaysListViewModel(photosUseCase: photosUseCase))
+        TodaysListMasterDetailView()
     }
 }

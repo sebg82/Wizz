@@ -9,10 +9,8 @@ import SwiftUI
 
 struct SearchPhotosView: View {
     
-    @StateObject var vm: SearchPhotosViewModel
-
+    @StateObject var vm = SearchPhotosViewModel()
     var namespace: Namespace.ID
-    @Binding var showUserPhotos: Bool
 
     var body: some View {
         VStack {
@@ -56,12 +54,7 @@ struct SearchPhotosView: View {
 
 struct SearchPhotosView_Previews: PreviewProvider {
     @Namespace static var namespace
-    
-    static var vm = SearchPhotosViewModel(photosUseCase: PhotosUseCase(source: UnsplashPhotosImpl(), cache: CachePhotosImpl()))
-
     static var previews: some View {
-        SearchPhotosView(vm: vm,
-                         namespace: namespace,
-                         showUserPhotos: .constant(true))
+        SearchPhotosView(namespace: namespace)
     }
 }

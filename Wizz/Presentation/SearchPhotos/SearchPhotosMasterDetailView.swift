@@ -9,36 +9,28 @@ import SwiftUI
 
 struct SearchPhotosMasterDetailView: View {
 
-    @StateObject var vm: SearchPhotosViewModel
+    @StateObject var vm = SearchPhotosViewModel()
     @State private var query = ""
-    @State private var selectedPhoto: PhotoEntity?
-    
-    @Namespace var namespace
-    @State var showUserPhotos = false
+    @State var selectedPhoto: PhotoEntity?
+    @Namespace private var namespace
 
     var body: some View {
         ZStack {
-            if showUserPhotos {
-                UserPhotosView(vm: UserPhotosViewModel(photosUseCase: vm.photosUseCase),
-                               photo: selectedPhoto!,
-                               namespace: namespace,
-                               showUserPhotos: $showUserPhotos)
+            if selectedPhoto != nil {
+                UserPhotosView(selectedPhoto: $selectedPhoto, namespace: namespace)
             } else {
-                SearchPhotosView(vm: vm,
-                                 namespace: namespace,
-                                 showUserPhotos: $showUserPhotos)
+                SearchPhotosView(namespace: namespace)
             }
         }
         .onTapGesture {
             withAnimation(.spring(response: 0.6, dampingFraction: 0.8)) {
-                showUserPhotos.toggle()
+                selectedPhoto = nil
             }
         }
 //        ZStack {
 //
-//            if showUserPhotos, let selectedPhoto = selectedPhoto {
-//                UserPhotosView_old(vm: UserPhotosViewModel(photosUseCase: vm.photosUseCase),
-//                               photo: selectedPhoto)
+//            if selectedPhoto != nil {
+//                UserPhotosView_old(photo: selectedPhoto)
 //
 //            } else {
 //
@@ -49,7 +41,6 @@ struct SearchPhotosMasterDetailView: View {
 //                                .onTapGesture {
 //                                    withAnimation(.easeInOut(duration: 2)) {
 //                                        selectedPhoto = photo
-//                                        showUserPhotos.toggle()
 //                                    }
 //                                }
 //                        }
@@ -68,9 +59,7 @@ struct SearchPhotosMasterDetailView: View {
 }
 
 struct SearchPhotosMasterDetailView_Previews: PreviewProvider {
-    static var photosUseCase = PhotosUseCase(source: UnsplashPhotosImpl(), cache: CachePhotosImpl())
-
     static var previews: some View {
-        SearchPhotosMasterDetailView(vm: SearchPhotosViewModel(photosUseCase: photosUseCase))
+        SearchPhotosMasterDetailView()
     }
 }

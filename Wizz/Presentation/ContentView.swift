@@ -12,7 +12,7 @@ struct ContentView: View {
 
     // To use the mocked data instead of the provider's data,
     // replace UnsplashPhotosImpl() by MockPhotosImpl()
-    var photosUseCase = PhotosUseCase(source: UnsplashPhotosImpl(), cache: CachePhotosImpl())
+    static var photosUseCase = PhotosUseCase(source: UnsplashPhotosImpl(), cache: CachePhotosImpl())
 
     enum Tab {
         case today
@@ -21,13 +21,13 @@ struct ContentView: View {
 
     var body: some View {
         TabView(selection: $selection) {
-            TodaysListMasterDetailView(vm: TodaysListViewModel(photosUseCase: photosUseCase))
+            TodaysListMasterDetailView()
                 .tabItem {
                     Label("Today", systemImage: "doc.text.image")
                 }
                 .tag(Tab.today)
 
-            SearchPhotosMasterDetailView(vm: SearchPhotosViewModel(photosUseCase: photosUseCase))
+            SearchPhotosMasterDetailView()
                 .tabItem {
                     Label("Search", systemImage: "magnifyingglass")
                 }
