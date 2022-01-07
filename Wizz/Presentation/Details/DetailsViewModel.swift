@@ -1,5 +1,5 @@
 //
-//  UserPhotosViewModel.swift
+//  DetailsViewModel.swift
 //  Wizz
 //
 //  Created by Sebastien Gohier on 30/12/2021.
@@ -8,7 +8,7 @@
 import Foundation
 
 @MainActor
-class UserPhotosViewModel: ObservableObject {
+class DetailsViewModel: ObservableObject {
     
     @Published var statistics: PhotoStatisticsEntity?
     @Published var photos: [PhotoEntity] = []
@@ -16,9 +16,16 @@ class UserPhotosViewModel: ObservableObject {
     @Published var hasError = false
 
 
-    func getUserPhotos(_ userId: String) async {
+    func getUserPhotos(of selectedPhoto: PhotoEntity) async {
         do {
-            photos = try await ContentView.photosUseCase.getUserPhotos(userId)
+            var tmpPhotos = try await TabsContentView.photosUseCase.getUserPhotos(selectedPhoto.user.username)
+            if tmpPhotos.contains(where: { $0.id == selectedPhoto.id }) {
+                tmpPhotos.removeAll(where: { $0.id == selectedPhoto.id })
+            } else {
+                tmpPhotos.removeLast()
+            }
+            tmpPhotos.insert(selectedPhoto, at: 0)
+            photos = tmpPhotos
             errorMessage = ""
             hasError = false
         } catch {
@@ -30,7 +37,7 @@ class UserPhotosViewModel: ObservableObject {
     
     func getPhotoStatistics(_ photoId: String) async {
         do {
-            statistics = try await ContentView.photosUseCase.getPhotoStatistics(photoId)
+            statistics = try await TabsContentView.photosUseCase.getPhotoStatistics(photoId)
             errorMessage = ""
             hasError = false
         } catch {

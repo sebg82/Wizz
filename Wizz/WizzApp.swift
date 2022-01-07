@@ -12,7 +12,7 @@ struct WizzApp: App {
 
     var body: some Scene {
         WindowGroup {
-            ContentView()
+            TabsContentView()
         }
     }
 }

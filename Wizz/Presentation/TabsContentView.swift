@@ -1,5 +1,5 @@
 //
-//  ContentView.swift
+//  TabsContentView.swift
 //  Wizz
 //
 //  Created by Sebastien Gohier on 30/12/2021.
@@ -7,27 +7,28 @@
 
 import SwiftUI
 
-struct ContentView: View {
-    @State private var selection: Tab = .today
-
+struct TabsContentView: View {
+    
     // To use the mocked data instead of the provider's data,
     // replace UnsplashPhotosImpl() by MockPhotosImpl()
     static var photosUseCase = PhotosUseCase(source: UnsplashPhotosImpl(), cache: CachePhotosImpl())
 
-    enum Tab {
+    @State private var selectedTab: Tab = .today
+
+    private enum Tab {
         case today
         case search
     }
 
     var body: some View {
-        TabView(selection: $selection) {
-            TodaysListMasterDetailView()
+        TabView(selection: $selectedTab) {
+            WallMasterDetailView()
                 .tabItem {
                     Label("Today", systemImage: "doc.text.image")
                 }
                 .tag(Tab.today)
 
-            SearchPhotosMasterDetailView()
+            SearchMasterDetailView()
                 .tabItem {
                     Label("Search", systemImage: "magnifyingglass")
                 }
@@ -36,8 +37,8 @@ struct ContentView: View {
     }
 }
 
-struct ContentView_Previews: PreviewProvider {
+struct TabsContentView_Previews: PreviewProvider {
     static var previews: some View {
-        ContentView()
+        TabsContentView()
     }
 }

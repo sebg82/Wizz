@@ -1,5 +1,5 @@
 //
-//  TodaysListViewModel.swift
+//  WallViewModel.swift
 //  Wizz
 //
 //  Created by Sebastien Gohier on 30/12/2021.
@@ -8,7 +8,7 @@
 import Foundation
 
 @MainActor
-class TodaysListViewModel: ObservableObject {
+class WallViewModel: ObservableObject {
 
     @Published var photos: [PhotoEntity] = []
     @Published var errorMessage = ""
@@ -16,7 +16,7 @@ class TodaysListViewModel: ObservableObject {
     
     func getPhotos() async {
         do {
-            photos = try await ContentView.photosUseCase.getPhotos()
+            photos = try await TabsContentView.photosUseCase.getPhotos()
             errorMessage = ""
             hasError = false
         } catch {

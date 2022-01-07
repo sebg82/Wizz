@@ -1,5 +1,5 @@
 //
-//  SearchPhotosMasterDetailView.swift
+//  SearchMasterDetailView.swift
 //  Wizz
 //
 //  Created by Sebastien Gohier on 30/12/2021.
@@ -7,9 +7,9 @@
 
 import SwiftUI
 
-struct SearchPhotosMasterDetailView: View {
+struct SearchMasterDetailView: View {
 
-    @StateObject var vm = SearchPhotosViewModel()
+    @StateObject var vm = SearchViewModel()
     @State private var query = ""
     @State var selectedPhoto: PhotoEntity?
     @Namespace private var namespace
@@ -17,9 +17,9 @@ struct SearchPhotosMasterDetailView: View {
     var body: some View {
         ZStack {
             if selectedPhoto != nil {
-                UserPhotosView(selectedPhoto: $selectedPhoto, namespace: namespace)
+                DetailsView(selectedPhoto: $selectedPhoto, namespace: namespace)
             } else {
-                SearchPhotosView(namespace: namespace)
+                SearchView(namespace: namespace)
             }
         }
         .onTapGesture {
@@ -30,7 +30,7 @@ struct SearchPhotosMasterDetailView: View {
 //        ZStack {
 //
 //            if selectedPhoto != nil {
-//                UserPhotosView_old(photo: selectedPhoto)
+//                DetailsView_old(photo: selectedPhoto)
 //
 //            } else {
 //
@@ -58,8 +58,8 @@ struct SearchPhotosMasterDetailView: View {
     }
 }
 
-struct SearchPhotosMasterDetailView_Previews: PreviewProvider {
+struct SearchMasterDetailView_Previews: PreviewProvider {
     static var previews: some View {
-        SearchPhotosMasterDetailView()
+        SearchMasterDetailView()
     }
 }

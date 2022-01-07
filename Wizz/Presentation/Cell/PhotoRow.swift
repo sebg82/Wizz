@@ -40,24 +40,27 @@ struct PhotoRow: View {
             .padding(10)
         }
         .background(
-//            Image(uiImage: photo.downloadImage() ?? UIImage())
-////            Image("tezos")
-//                .resizable()
-//                .frame(alignment: .center)
-//                .cornerRadius(15)
-//                .shadow(radius: 5)
-//                .matchedGeometryEffect(id: photo.id, in: namespace)
+            Image(uiImage: photo.downloadImage() ?? UIImage())
+//                        Image("tezos")
+                .resizable()
+//                            .frame(alignment: .center)
+//                        .padding(5)
+                .frame(width: 100, height: 100, alignment: .leading)
+                .matchedGeometryEffect(id: "\(photo.id)", in: namespace)
+//                            .aspectRatio(1, contentMode: .fit)
+                .animation(.spring(response: 5.6, dampingFraction: 0.8))
 
-            AsyncImage(url: URL(string: photo.urlRegular)) { image in
-                image
-                    .resizable()
-                    .frame(alignment: .center)
-                    .cornerRadius(15)
-                    .shadow(radius: 5)
-                    .matchedGeometryEffect(id: photo.id, in: namespace)
-            } placeholder: {
-                Color.clear
-            }
+//            AsyncImage(url: URL(string: photo.urlRegular)) { image in
+//                image
+//                    .resizable()
+//                    .frame(alignment: .center)
+//                    .cornerRadius(15)
+//                    .shadow(radius: 5)
+//                    .matchedGeometryEffect(id: photo.id, in: namespace)
+//            } placeholder: {
+//                Color.clear
+//            }
+//            .animation(.spring(response: 5.6, dampingFraction: 0.8))
         )
 //        .mask {
 //            RoundedRectangle(cornerRadius: 15, style: .continuous)

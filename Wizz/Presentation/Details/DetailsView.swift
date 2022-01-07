@@ -1,5 +1,5 @@
 //
-//  UserPhotosView.swift
+//  DetailsView.swift
 //  Wizz
 //
 //  Created by Sebastien Gohier on 03/01/2022.
@@ -7,33 +7,18 @@
 
 import SwiftUI
 
-struct UserPhotosView: View {
+struct DetailsView: View {
     
-    @StateObject var vm = UserPhotosViewModel()
+    @StateObject var vm = DetailsViewModel()
     @Binding var selectedPhoto: PhotoEntity?
     var namespace: Namespace.ID
-    let columns = [
-        GridItem(.flexible(), spacing: 0),
-        GridItem(.flexible(), spacing: 0)
-    ]
+    let columns: [GridItem] = Array(repeating: .init(.flexible()), count: 2)
 
     var body: some View {
         ZStack {
-            closeButton
             scrollingPhotos
+            closeButton
         }
-        .task {
-            if let selectedPhoto = selectedPhoto {
-                await vm.getUserPhotos(selectedPhoto.user.username)
-                vm.photos.insert(selectedPhoto, at: 0)
-                await vm.getPhotoStatistics(selectedPhoto.id)
-            }
-        }
-        .alert("Error", isPresented: $vm.hasError) {
-        } message: {
-            Text(vm.errorMessage)
-        }
-        
 //        ScrollView {
 //            VStack {
 //                Spacer()
@@ -113,32 +98,30 @@ struct UserPhotosView: View {
     } 
     
     var scrollingPhotos: some View {
-        
         ScrollView {
-            
             LazyVGrid(columns: columns, spacing: 0) {
-                ForEach(vm.photos){ photo in
-                    if let selectedPhoto = selectedPhoto {
-    //                    AsyncImage(url: URL(string: selectedPhoto.urlRegular)) { image in
-    //                        image.resizable()
-    //                            .frame(alignment: .center)
-    //                    } placeholder: {
-    //                        Color.clear
-    //                    }
-    //                    .padding(5)
-    //                    .aspectRatio(1, contentMode: .fit)
-                        Image(uiImage: selectedPhoto.downloadImage() ?? UIImage())
-    //                    Image("tezos")
-                            .resizable()
-                            .frame(alignment: .center)
-    //                        .padding(5)
-                            .matchedGeometryEffect(id: selectedPhoto.id, in: namespace)
-                            .aspectRatio(1, contentMode: .fit)
-                        Text(selectedPhoto.id)
-                    }
+                ForEach(vm.photos, id: \.self) { photo in
+//                    AsyncImage(url: URL(string: photo.urlRegular)) { image in
+//                        image.resizable()
+//                            .frame(alignment: .center)
+//                            .matchedGeometryEffect(id: "\(photo.id)", in: namespace)
+//                    } placeholder: {
+//                        Color.clear
+//                    }
+//                    .padding(5)
+//                    .aspectRatio(1, contentMode: .fit)
+//                    .animation(.spring(response: 5.6, dampingFraction: 0.8))
+
+//                    Image(uiImage: photo.downloadImage() ?? UIImage())
+                    Image("tezos")
+                        .resizable()
+                        .matchedGeometryEffect(id: "\(photo.id)", in: namespace)
+                        .frame(width: 200, height: 100, alignment: .trailing)
+                        .animation(.spring(response: 5.6, dampingFraction: 0.8))
+                    Text(photo.id)
                 }
             }
-
+/*
             VStack {
                 Text("Picture Statistics")
                     .font(.system(size: 17))
@@ -166,15 +149,24 @@ struct UserPhotosView: View {
             .font(.system(size: 13, weight: .bold, design: .default))
             .foregroundColor(Color(.systemGray))
             .padding(.horizontal, 20)
+*/
         }
 //        .ignoresSafeArea()
+        .task {
+            if let selectedPhoto = selectedPhoto {
+                await vm.getUserPhotos(of: selectedPhoto)
+                await vm.getPhotoStatistics(selectedPhoto.id)
+            }
+        }
+        .alert("Error", isPresented: $vm.hasError) {
+        } message: {
+            Text(vm.errorMessage)
+        }
     }
     
     var closeButton: some View {
         Button {
-            withAnimation(.spring(response: 0.6, dampingFraction: 0.8)) {
-                selectedPhoto = nil
-            }
+            selectedPhoto = nil
         } label: {
             Image(systemName: "xmark")
                 .font(.body.weight(.bold))
@@ -184,13 +176,13 @@ struct UserPhotosView: View {
         }
         .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .topTrailing)
         .padding(20)
-        .ignoresSafeArea()
+//        .ignoresSafeArea()
     }
 }
 
-struct UserPhotosView_Previews: PreviewProvider {
+struct DetailsView_Previews: PreviewProvider {
     @Namespace static var namespace
     static var previews: some View {
-        UserPhotosView(selectedPhoto: .constant(.mock), namespace: namespace)
+        DetailsView(selectedPhoto: .constant(.mock), namespace: namespace)
     }
 }

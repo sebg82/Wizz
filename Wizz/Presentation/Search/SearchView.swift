@@ -1,5 +1,5 @@
 //
-//  SearchPhotosView.swift
+//  SearchView.swift
 //  Wizz
 //
 //  Created by Sebastien Gohier on 04/01/2022.
@@ -7,9 +7,9 @@
 
 import SwiftUI
 
-struct SearchPhotosView: View {
+struct SearchView: View {
     
-    @StateObject var vm = SearchPhotosViewModel()
+    @StateObject var vm = SearchViewModel()
     var namespace: Namespace.ID
 
     var body: some View {
@@ -52,9 +52,9 @@ struct SearchPhotosView: View {
     }
 }
 
-struct SearchPhotosView_Previews: PreviewProvider {
+struct SearchView_Previews: PreviewProvider {
     @Namespace static var namespace
     static var previews: some View {
-        SearchPhotosView(namespace: namespace)
+        SearchView(namespace: namespace)
     }
 }
