@@ -47,7 +47,7 @@ struct PhotoRow: View {
                 VStack {
                     Text("\(photo.user.username)")
                         .frame(maxWidth: .infinity, alignment: .bottomLeading)
-                    Text("\(photo.id) likes")
+                    Text("\(photo.likes) likes")
                         .frame(maxWidth: .infinity, alignment: .bottomLeading)
                 }
                 .font(.footnote.weight(.bold))
@@ -63,6 +63,6 @@ struct PhotoRow_Previews: PreviewProvider {
     @Namespace static var namespace
     static var previews: some View {
         PhotoRow(photo: .mock, namespace: namespace)
-            .previewLayout(.fixed(width: 300, height: 400))
+            .previewLayout(.fixed(width: 300, height: 300))
     }
 }
