@@ -10,51 +10,41 @@ import SwiftUI
 struct SearchView: View {
     
     @StateObject var vm = SearchViewModel()
+    @Binding var showDetails: Bool
+    @Binding var selectedPhoto: PhotoEntity?
     var namespace: Namespace.ID
+    @Binding var query: String
 
     var body: some View {
-        VStack {
-            Spacer()
-            VStack(alignment: .leading, spacing: 12) {
-                Text("SwiftUI")
-                    .font(.largeTitle.weight(.bold))
-                    .matchedGeometryEffect(id: "title", in: namespace)
-                    .frame(maxWidth: .infinity, alignment: .leading)
-                Text("20 sections - 3 hours".uppercased())
-                    .font(.footnote.weight(.semibold))
-                    .matchedGeometryEffect(id: "subtitle", in: namespace)
-                Text("dsdsadasdsada dasd das das dasd asdasd")
-                    .font(.footnote)
-                    .matchedGeometryEffect(id: "text", in: namespace)
+        NavigationView {
+            ScrollView {
+                LazyVGrid(columns: [GridItem(.flexible())], spacing: 0) {
+                    ForEach(vm.photos, id: \.self) { photo in
+                        PhotoRow(photo: photo, namespace: namespace)
+                            .onTapGesture {
+                                withAnimation(.easeInOut(duration: TabsContentView.duration)) {
+                                    selectedPhoto = photo
+                                    showDetails = selectedPhoto != nil
+                                }
+                            }
+                    }
+                }
             }
-            .padding(20)
-            .background(
-                Rectangle()
-                    .fill(.ultraThinMaterial)
-                    .mask(RoundedRectangle(cornerRadius: 30, style: .continuous))
-                    .blur(radius: 30)
-                    .matchedGeometryEffect(id: "blur", in: namespace)
-            )
+            .navigationBarTitle("Search")
+            .searchable(text: $query, placement: .navigationBarDrawer(displayMode: .always), prompt: "Photos")
+            .onChange(of: query) { newQuery in
+                Task { await vm.getSearchPhotos(query) }
+            }
         }
-        .foregroundStyle(.white)
-        .background(
-            Image("tezos")
-                .resizable()
-                .aspectRatio(contentMode: .fill)
-                .matchedGeometryEffect(id: "background", in: namespace)
-        )
-        .mask {
-            RoundedRectangle(cornerRadius: 30, style: .continuous)
-                .matchedGeometryEffect(id: "mask", in: namespace)
+        .task {
+            await vm.getSearchPhotos(query)
         }
-        .frame(height: 300)
-        .padding(20)
     }
 }
 
 struct SearchView_Previews: PreviewProvider {
     @Namespace static var namespace
     static var previews: some View {
-        SearchView(namespace: namespace)
+        SearchView(showDetails: .constant(false), selectedPhoto: .constant(nil), namespace: namespace, query: .constant("s"))
     }
 }

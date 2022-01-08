@@ -12,6 +12,7 @@ struct TabsContentView: View {
     // To use the mocked data instead of the provider's data,
     // replace UnsplashPhotosImpl() by MockPhotosImpl()
     static var photosUseCase = PhotosUseCase(source: UnsplashPhotosImpl(), cache: CachePhotosImpl())
+    static let duration: Double = 1.6
 
     @State private var selectedTab: Tab = .today
 

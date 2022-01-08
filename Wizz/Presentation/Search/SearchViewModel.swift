@@ -11,18 +11,8 @@ import Foundation
 class SearchViewModel: ObservableObject {
     
     @Published var photos: [PhotoEntity] = []
-    @Published var errorMessage = ""
-    @Published var hasError = false
     
     func getSearchPhotos(_ query: String) async {
-        do {
-            photos = try await TabsContentView.photosUseCase.getSearchPhotos(query)
-            errorMessage = ""
-            hasError = false
-        } catch {
-            photos = []
-            errorMessage = error.localizedDescription
-            hasError = true
-        }
+        photos = (try? await TabsContentView.photosUseCase.getSearchPhotos(query)) ?? []
     }
 }

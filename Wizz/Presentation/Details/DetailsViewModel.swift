@@ -12,8 +12,6 @@ class DetailsViewModel: ObservableObject {
     
     @Published var statistics: PhotoStatisticsEntity?
     @Published var photos: [PhotoEntity] = []
-    @Published var errorMessage = ""
-    @Published var hasError = false
 
 
     func getUserPhotos(of selectedPhoto: PhotoEntity) async {
@@ -26,24 +24,12 @@ class DetailsViewModel: ObservableObject {
             }
             tmpPhotos.insert(selectedPhoto, at: 0)
             photos = tmpPhotos
-            errorMessage = ""
-            hasError = false
         } catch {
             photos = []
-            errorMessage = error.localizedDescription
-            hasError = true
         }
     }
     
     func getPhotoStatistics(_ photoId: String) async {
-        do {
-            statistics = try await TabsContentView.photosUseCase.getPhotoStatistics(photoId)
-            errorMessage = ""
-            hasError = false
-        } catch {
-            photos = []
-            errorMessage = error.localizedDescription
-            hasError = true
-        }
+        statistics = try? await TabsContentView.photosUseCase.getPhotoStatistics(photoId)
     }
 }

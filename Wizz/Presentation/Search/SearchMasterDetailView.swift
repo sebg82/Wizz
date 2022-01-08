@@ -8,53 +8,20 @@
 import SwiftUI
 
 struct SearchMasterDetailView: View {
-
-    @StateObject var vm = SearchViewModel()
-    @State private var query = ""
+    
+    @State var showDetails: Bool = false
     @State var selectedPhoto: PhotoEntity?
     @Namespace private var namespace
+    @State var query = ""
 
     var body: some View {
         ZStack {
-            if selectedPhoto != nil {
-                DetailsView(selectedPhoto: $selectedPhoto, namespace: namespace)
+            if showDetails {
+                DetailsView(showDetails: $showDetails, selectedPhoto: $selectedPhoto, namespace: namespace)
             } else {
-                SearchView(namespace: namespace)
+                SearchView(showDetails: $showDetails, selectedPhoto: $selectedPhoto, namespace: namespace, query: $query)
             }
         }
-        .onTapGesture {
-            withAnimation(.spring(response: 0.6, dampingFraction: 0.8)) {
-                selectedPhoto = nil
-            }
-        }
-//        ZStack {
-//
-//            if selectedPhoto != nil {
-//                DetailsView_old(photo: selectedPhoto)
-//
-//            } else {
-//
-//                NavigationView {
-//                    List {
-//                        ForEach(vm.photos) { photo in
-//                            PhotoRow(photo: photo)
-//                                .onTapGesture {
-//                                    withAnimation(.easeInOut(duration: 2)) {
-//                                        selectedPhoto = photo
-//                                    }
-//                                }
-//                        }
-//                        .listRowSeparator(.hidden)
-//                    }
-//                    .listStyle(.inset)
-//                    .navigationBarTitle("Search")
-//                    .searchable(text: $query, placement: .navigationBarDrawer(displayMode: .always), prompt: "Photos")
-//                    .onChange(of: query) { newQuery in
-//                        Task { await vm.getSearchPhotos(query) }
-//                    }
-//                }
-//            }
-//        }
     }
 }
 

@@ -10,12 +10,11 @@ import SwiftUI
 struct DetailsView: View {
     
     @StateObject var vm = DetailsViewModel()
-    @State var showDetailDest: Bool = true
+    @Binding var showDetails: Bool
     @Binding var selectedPhoto: PhotoEntity?
     var namespace: Namespace.ID
+    @State private var showPlaceholderForAnimation: Bool = true
     let columns: [GridItem] = Array(repeating: .init(.flexible()), count: 2)
-    
-    static let duration: Double = 1.6
     
     var body: some View {
         ZStack {
@@ -26,9 +25,8 @@ struct DetailsView: View {
     
     var closeButton: some View {
         Button {
-            withAnimation(.easeInOut(duration: 0.6/*Self.duration*/)) {
-                selectedPhoto = nil
-                showDetailDest = true
+            withAnimation(.easeInOut(duration: 1)) {
+                showDetails = false
             }
         } label: {
             Image(systemName: "xmark")
@@ -45,17 +43,17 @@ struct DetailsView: View {
     var scrollingPhotos: some View {
         ScrollView {
 
-            if showDetailDest, let selected = selectedPhoto {
+            if showPlaceholderForAnimation, let selectedPhoto = selectedPhoto {
                 LazyVGrid(columns: columns, spacing: 10) {
-                    Image(uiImage: selectedPhoto?.downloadImage() ?? UIImage())
+                    Image(uiImage: selectedPhoto.downloadImage() ?? UIImage())
                         .resizable()
-                        .matchedGeometryEffect(id: "\(selected.id)", in: namespace)
+                        .matchedGeometryEffect(id: "\(selectedPhoto.id)", in: namespace)
                         .aspectRatio(1, contentMode: .fill)
     //                        .animation(.easeInOut(duration: Self.duration))
                         .onAppear {
                             // When animation finished
-                            DispatchQueue.main.asyncAfter(deadline: .now() + Self.duration) {
-                                showDetailDest = false
+                            DispatchQueue.main.asyncAfter(deadline: .now() + TabsContentView.duration) {
+                                showPlaceholderForAnimation = false
                             }
                         }
                 }
@@ -118,6 +116,6 @@ struct DetailsView: View {
 struct DetailsView_Previews: PreviewProvider {
     @Namespace static var namespace
     static var previews: some View {
-        DetailsView(selectedPhoto: .constant(.mock), namespace: namespace)
+        DetailsView(showDetails: .constant(true), selectedPhoto: .constant(.mock), namespace: namespace)
     }
 }

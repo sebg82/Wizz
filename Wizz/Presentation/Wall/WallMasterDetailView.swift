@@ -8,17 +8,17 @@
 import SwiftUI
 
 struct WallMasterDetailView: View {
-
+    
+    @State var showDetails: Bool = false
     @State var selectedPhoto: PhotoEntity?
     @Namespace private var namespace
-    
-    let columns: [GridItem] = Array(repeating: .init(.flexible()), count: 2)
+
     var body: some View {
         ZStack {
-            if selectedPhoto != nil {
-                DetailsView(selectedPhoto: $selectedPhoto, namespace: namespace)
+            if showDetails {
+                DetailsView(showDetails: $showDetails, selectedPhoto: $selectedPhoto, namespace: namespace)
             } else { 
-                WallView(selectedPhoto: $selectedPhoto, namespace: namespace)
+                WallView(showDetails: $showDetails, selectedPhoto: $selectedPhoto, namespace: namespace)
             }
         }
     }
