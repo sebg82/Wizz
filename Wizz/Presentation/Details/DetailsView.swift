@@ -25,7 +25,7 @@ struct DetailsView: View {
     
     var closeButton: some View {
         Button {
-            withAnimation(.easeInOut(duration: 1)) {
+            withAnimation(.easeInOut(duration: TabsContentView.duration)) {
                 showDetails = false
             }
         } label: {
