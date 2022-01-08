@@ -58,7 +58,7 @@ struct PhotosUseCase {
         
         // Get the photos from the provider
         if let photos = try? await source.fetchSearchPhotos(query) {
-            
+
             // Save the photos in the device
             try? await cache.saveSearchPhotos(photos, for: query)
             return photos

@@ -45,7 +45,7 @@ struct DetailsView: View {
 
             if showPlaceholderForAnimation, let selectedPhoto = selectedPhoto {
                 LazyVGrid(columns: columns, spacing: 10) {
-                    Image(uiImage: selectedPhoto.downloadImage() ?? UIImage())
+                    Image(uiImage: UIImage.fromCache(orUrl: selectedPhoto.urlRegular))
                         .resizable()
                         .matchedGeometryEffect(id: "\(selectedPhoto.id)", in: namespace)
                         .aspectRatio(1, contentMode: .fill)
@@ -62,7 +62,7 @@ struct DetailsView: View {
             } else {
                 LazyVGrid(columns: columns, spacing: 10) {
                     ForEach(vm.photos, id: \.self) { photo in
-                        Image(uiImage: photo.downloadImage() ?? UIImage())
+                        Image(uiImage: UIImage.fromCache(orUrl: photo.urlRegular))
                             .resizable()
                             .matchedGeometryEffect(id: "\(photo.id)", in: namespace)
                             .aspectRatio(1, contentMode: .fill)

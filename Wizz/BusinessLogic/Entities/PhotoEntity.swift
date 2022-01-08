@@ -26,22 +26,4 @@ struct PhotoEntity: Identifiable, Hashable {
     var user: UserEntity
     var urlRegular: String
     var likes: Int
-    
-    func downloadImage() -> UIImage? {
-        
-        guard let imageURL = URL(string: urlRegular) else {
-            return nil
-        }
-        
-        let cache = URLCache.shared
-        let request = URLRequest(url: imageURL, cachePolicy: URLRequest.CachePolicy.returnCacheDataElseLoad)
-        if let data = cache.cachedResponse(for: request)?.data {
-            return UIImage(data: data)
-        } else {
-            if let data = try? Data(contentsOf: imageURL) {
-                return UIImage(data: data)
-            }
-        }
-        return nil
-    }
 }

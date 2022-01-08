@@ -27,7 +27,7 @@ extension CachePhotosImpl: FetchPhotosInterface {
     }
     
     func fetchSearchPhotos(_ query: String) async throws -> [PhotoEntity] {
-        let result: SearchPhotosData = try getObject(from: "search(\(query))-photos.json")
+        let result: SearchPhotosData = try getObject(from: "search(\(query.lowercased()))-photos.json")
         return result.results.compactMap { $0.toEntity() }
     }
     
@@ -57,8 +57,8 @@ extension CachePhotosImpl: SavePhotosInterface {
     }
 
     func saveSearchPhotos(_ photos: [PhotoEntity], for query: String) async throws {
-        let objData = photos.compactMap { PhotoData($0) }
-        try setObject(objData, to: "search(\(query))-photos.json")
+        let objData = SearchPhotosData(results: photos.compactMap { PhotoData($0) })
+        try setObject(objData, to: "search(\(query.lowercased()))-photos.json")
     }
     
     private func setObject<Element: Encodable>(_ object: Element, to filename: String) throws {

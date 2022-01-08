@@ -29,7 +29,7 @@ struct PhotoRow: View {
             .shadow(color: .gray, radius: 5)
 //                .animation(.spring(response: 5.6, dampingFraction: 0.8))
             .task {
-                photoImage = photo.downloadImage() ?? UIImage()
+                photoImage = UIImage.fromCache(orUrl: photo.urlRegular)
             }
     }
     
@@ -37,17 +37,12 @@ struct PhotoRow: View {
         VStack {
             Spacer()
             HStack {
-                AsyncImage(url: URL(string: photo.user.profileImageMedium)) { image in
-                    image
-                        .resizable()
-                        .frame(width: 50, height: 50, alignment: .center)
-                        .cornerRadius(25)
-                        .overlay(RoundedRectangle(cornerRadius: 25)
-                                    .stroke(.white, lineWidth: 2))
-
-                } placeholder: {
-                    Color.clear
-                }
+                Image(uiImage: UIImage.fromCache(orUrl: photo.user.profileImageMedium))
+                    .resizable()
+                    .frame(width: 50, height: 50, alignment: .center)
+                    .cornerRadius(25)
+                    .overlay(RoundedRectangle(cornerRadius: 25)
+                                .stroke(.white, lineWidth: 2))
 
                 VStack {
                     Text("\(photo.user.username)")
