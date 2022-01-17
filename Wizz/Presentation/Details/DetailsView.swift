@@ -61,7 +61,7 @@ struct DetailsView: View {
 
             } else {
                 LazyVGrid(columns: columns, spacing: 10) {
-                    ForEach(vm.photos, id: \.self) { photo in
+                    ForEach(vm.photos, id: \.id) { photo in
                         Image(uiImage: UIImage.fromCache(orUrl: photo.urlRegular))
                             .resizable()
                             .matchedGeometryEffect(id: "\(photo.id)", in: namespace)
@@ -117,5 +117,6 @@ struct DetailsView_Previews: PreviewProvider {
     @Namespace static var namespace
     static var previews: some View {
         DetailsView(showDetails: .constant(true), selectedPhoto: .constant(.mock), namespace: namespace)
+.previewInterfaceOrientation(.portrait)
     }
 }

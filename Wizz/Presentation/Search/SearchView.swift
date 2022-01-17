@@ -19,7 +19,7 @@ struct SearchView: View {
         NavigationView {
             ScrollView {
                 LazyVGrid(columns: [GridItem(.flexible())], spacing: 0) {
-                    ForEach(vm.photos, id: \.self) { photo in
+                    ForEach(vm.photos, id: \.id) { photo in
                         PhotoRow(photo: photo, namespace: namespace)
                             .onTapGesture {
                                 withAnimation(.easeInOut(duration: TabsContentView.duration)) {

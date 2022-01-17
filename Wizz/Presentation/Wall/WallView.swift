@@ -20,6 +20,22 @@ struct WallView: View {
     var namespace: Namespace.ID
 
     var body: some View {
+//        List {
+//            ForEach(vm.photos, id: \.id) { photo in
+//                PhotoRow(photo: photo, namespace: namespace)
+//                    .onTapGesture {
+//                        withAnimation(.easeInOut(duration: TabsContentView.duration)) {
+//                            selectedPhoto = photo
+//                            showDetails = selectedPhoto != nil
+//                        }
+//                    }
+//            }
+//        }
+//        // Allows to Pull Down to refresh the list wow
+//        // Only on a List
+//        .refreshable {
+//            await vm.getPhotos()
+//        }
         ScrollView {
             Text("\(todayDate)")
                 .font(.system(size: 13, weight: .bold, design: .default))
@@ -32,7 +48,7 @@ struct WallView: View {
                 .listRowSeparator(.hidden)
 
             LazyVGrid(columns: [GridItem(.flexible())], spacing: 0) {
-                ForEach(vm.photos, id: \.self) { photo in
+                ForEach(vm.photos, id: \.id) { photo in
                     PhotoRow(photo: photo, namespace: namespace)
                         .onTapGesture {
                             withAnimation(.easeInOut(duration: TabsContentView.duration)) {
