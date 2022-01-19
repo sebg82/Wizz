@@ -29,7 +29,6 @@ struct DetailsView: View {
         } label: {
             Image(systemName: "xmark")
                 .font(.body.weight(.bold))
-                .foregroundColor(.secondary)
                 .padding(8)
                 .background(.ultraThinMaterial, in: Circle())
         }
@@ -78,17 +77,14 @@ struct DetailsView: View {
     }
     
     var photoStatistics: some View {
-        VStack {
+        VStack(alignment: .leading) {
             Text("Picture Statistics")
-                .font(.system(size: 17))
-                .frame(maxWidth: .infinity, alignment: .bottomLeading)
 
             if let nbViews = vm.statistics?.views {
                 HStack {
                     Image("views")
                         .renderingMode(.template)
                     Text("\(nbViews) views")
-                        .frame(maxWidth: .infinity, alignment: .bottomLeading)
                 }
             }
 
@@ -97,12 +93,11 @@ struct DetailsView: View {
                     Image("download")
                         .renderingMode(.template)
                     Text("\(nbDownloads) downloads")
-                        .frame(maxWidth: .infinity, alignment: .bottomLeading)
                 }
             }
         }
-        .font(.system(size: 13, weight: .bold, design: .default))
-        .foregroundColor(Color(.systemGray))
+        .frame(maxWidth: .infinity, alignment: .bottomLeading)
+        .font(.body.weight(.bold))
         .padding(.horizontal, 20)
     }
 }

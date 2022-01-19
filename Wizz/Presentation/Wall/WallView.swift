@@ -37,23 +37,15 @@ struct WallView: View {
 //            await vm.getPhotos()
 //        }
         ScrollView {
-            HStack {
+            VStack(alignment: .leading) {
                 Text("\(todayDate)")
-                    .font(.system(size: 13, weight: .bold, design: .default))
-                    .foregroundColor(Color(.systemGray))
-                    .listRowSeparator(.hidden)
-                    .padding(.horizontal)
-                Spacer()
-            }
-
-            HStack {
                 Text("Today")
                     .font(.largeTitle)
                     .foregroundColor(.primary)
-                    .listRowSeparator(.hidden)
-                    .padding(.horizontal)
-                Spacer()
             }
+            .frame(maxWidth: .infinity, alignment: .bottomLeading)
+            .padding(.horizontal)
+            .listRowSeparator(.hidden)
 
             LazyVGrid(columns: [GridItem(.flexible())], spacing: 0) {
                 ForEach(vm.photos, id: \.id) { photo in

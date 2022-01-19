@@ -35,6 +35,8 @@ struct TabsContentView: View {
                 }
                 .tag(Tab.search)
         }
+        .font(.headline)
+        .foregroundColor(.secondary)
     }
 }
 

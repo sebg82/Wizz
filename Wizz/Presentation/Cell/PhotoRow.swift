@@ -40,13 +40,11 @@ struct PhotoRow: View {
                     .overlay(RoundedRectangle(cornerRadius: 25)
                                 .stroke(.white, lineWidth: 2))
 
-                VStack {
+                VStack(alignment: .leading) {
                     Text("\(photo.user.username)")
-                        .frame(maxWidth: .infinity, alignment: .bottomLeading)
                     Text("\(photo.likes) likes")
-                        .frame(maxWidth: .infinity, alignment: .bottomLeading)
                 }
-                .font(.footnote.weight(.bold))
+                .frame(maxWidth: .infinity, alignment: .bottomLeading)
                 .foregroundColor(.white)
                 .shadow(color: .gray, radius: 2)
             }
