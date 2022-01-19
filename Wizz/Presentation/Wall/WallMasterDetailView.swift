@@ -14,12 +14,10 @@ struct WallMasterDetailView: View {
     @Namespace private var namespace
 
     var body: some View {
-        ZStack {
-            if showDetails {
-                DetailsView(showDetails: $showDetails, selectedPhoto: $selectedPhoto, namespace: namespace)
-            } else { 
-                WallView(showDetails: $showDetails, selectedPhoto: $selectedPhoto, namespace: namespace)
-            }
+        if showDetails {
+            DetailsView(showDetails: $showDetails, selectedPhoto: $selectedPhoto, namespace: namespace)
+        } else {
+            WallView(showDetails: $showDetails, selectedPhoto: $selectedPhoto, namespace: namespace)
         }
     }
 }

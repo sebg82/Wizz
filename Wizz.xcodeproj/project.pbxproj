@@ -34,6 +34,8 @@
 		09024435277F29A5001C76A7 /* SavePhotosInterface.swift in Sources */ = {isa = PBXBuildFile; fileRef = 09024434277F29A5001C76A7 /* SavePhotosInterface.swift */; };
 		09024438277F3957001C76A7 /* CachePhotosImpl.swift in Sources */ = {isa = PBXBuildFile; fileRef = 09024437277F3957001C76A7 /* CachePhotosImpl.swift */; };
 		0902443B277F996D001C76A7 /* PhotoRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0902443A277F996D001C76A7 /* PhotoRow.swift */; };
+		093C9D4D279623840007916A /* Image+Lib.swift in Sources */ = {isa = PBXBuildFile; fileRef = 093C9D4C279623840007916A /* Image+Lib.swift */; };
+		093C9D4F279623A90007916A /* Image+Ext.swift in Sources */ = {isa = PBXBuildFile; fileRef = 093C9D4E279623A90007916A /* Image+Ext.swift */; };
 		09DC078F278A00970088198B /* UIImage+Ext.swift in Sources */ = {isa = PBXBuildFile; fileRef = 09DC078E278A00970088198B /* UIImage+Ext.swift */; };
 		09FDB84C2780D2B000D0D9A8 /* View+Ext.swift in Sources */ = {isa = PBXBuildFile; fileRef = 09FDB84B2780D2B000D0D9A8 /* View+Ext.swift */; };
 		09FDB8502783A9C100D0D9A8 /* WallView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 09FDB84F2783A9C100D0D9A8 /* WallView.swift */; };
@@ -71,6 +73,8 @@
 		09024434277F29A5001C76A7 /* SavePhotosInterface.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SavePhotosInterface.swift; sourceTree = "<group>"; };
 		09024437277F3957001C76A7 /* CachePhotosImpl.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CachePhotosImpl.swift; sourceTree = "<group>"; };
 		0902443A277F996D001C76A7 /* PhotoRow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoRow.swift; sourceTree = "<group>"; };
+		093C9D4C279623840007916A /* Image+Lib.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Image+Lib.swift"; sourceTree = "<group>"; };
+		093C9D4E279623A90007916A /* Image+Ext.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Image+Ext.swift"; sourceTree = "<group>"; };
 		09DC078E278A00970088198B /* UIImage+Ext.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIImage+Ext.swift"; sourceTree = "<group>"; };
 		09FDB84B2780D2B000D0D9A8 /* View+Ext.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "View+Ext.swift"; sourceTree = "<group>"; };
 		09FDB84F2783A9C100D0D9A8 /* WallView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WallView.swift; sourceTree = "<group>"; };
@@ -114,6 +118,7 @@
 				090243F1277DED1D001C76A7 /* BusinessLogic */,
 				090243DC277DBDFE001C76A7 /* Data */,
 				09FDB84A2780D29100D0D9A8 /* Extensions */,
+				093C9D4B2796235A0007916A /* Library */,
 				090243D8277DBA99001C76A7 /* Resources */,
 				090243CD277DB8D3001C76A7 /* Preview Content */,
 			);
@@ -288,11 +293,20 @@
 			path = Cell;
 			sourceTree = "<group>";
 		};
+		093C9D4B2796235A0007916A /* Library */ = {
+			isa = PBXGroup;
+			children = (
+				093C9D4C279623840007916A /* Image+Lib.swift */,
+			);
+			path = Library;
+			sourceTree = "<group>";
+		};
 		09FDB84A2780D29100D0D9A8 /* Extensions */ = {
 			isa = PBXGroup;
 			children = (
 				09FDB84B2780D2B000D0D9A8 /* View+Ext.swift */,
 				09DC078E278A00970088198B /* UIImage+Ext.swift */,
+				093C9D4E279623A90007916A /* Image+Ext.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -382,6 +396,7 @@
 				09024417277E047E001C76A7 /* DetailsViewModel.swift in Sources */,
 				09FDB8522783ABA200D0D9A8 /* DetailsView.swift in Sources */,
 				09024407277E000E001C76A7 /* PhotoStatisticsEntity.swift in Sources */,
+				093C9D4D279623840007916A /* Image+Lib.swift in Sources */,
 				090243FC277DF021001C76A7 /* PhotosUseCase.swift in Sources */,
 				09024426277E120A001C76A7 /* UserData.swift in Sources */,
 				09FDB84C2780D2B000D0D9A8 /* View+Ext.swift in Sources */,
@@ -395,6 +410,7 @@
 				090243E0277DC555001C76A7 /* SearchMasterDetailView.swift in Sources */,
 				09FDB8542784C30900D0D9A8 /* SearchView.swift in Sources */,
 				09024438277F3957001C76A7 /* CachePhotosImpl.swift in Sources */,
+				093C9D4F279623A90007916A /* Image+Ext.swift in Sources */,
 				0902441D277E0C37001C76A7 /* UnsplashPhotosImpl.swift in Sources */,
 				09024413277E03E4001C76A7 /* SearchViewModel.swift in Sources */,
 			);

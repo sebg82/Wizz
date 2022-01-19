@@ -13,18 +13,14 @@ struct PhotoRow: View {
     var namespace: Namespace.ID
 
     var body: some View {
-        ZStack {
-            photoImageView
-            photoInfos
-        }
-        .padding(20)
+        photoImageView
+            .overlay { photoInfos }
+            .padding(20)
     }
     
     var photoImageView: some View {
         Image(uiImage: photoImage)
-            .resizable()
-            .matchedGeometryEffect(id: "\(photo.id)", in: namespace)
-            .aspectRatio(1, contentMode: .fill)
+            .resizedToFill(photo, namespace: namespace)
             .cornerRadius(15)
             .shadow(color: .gray, radius: 5)
 //                .animation(.spring(response: 5.6, dampingFraction: 0.8))

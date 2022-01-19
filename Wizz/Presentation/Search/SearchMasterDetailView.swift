@@ -15,12 +15,10 @@ struct SearchMasterDetailView: View {
     @State var query = ""
 
     var body: some View {
-        ZStack {
-            if showDetails {
-                DetailsView(showDetails: $showDetails, selectedPhoto: $selectedPhoto, namespace: namespace)
-            } else {
-                SearchView(showDetails: $showDetails, selectedPhoto: $selectedPhoto, namespace: namespace, query: $query)
-            }
+        if showDetails {
+            DetailsView(showDetails: $showDetails, selectedPhoto: $selectedPhoto, namespace: namespace)
+        } else {
+            SearchView(showDetails: $showDetails, selectedPhoto: $selectedPhoto, namespace: namespace, query: $query)
         }
     }
 }

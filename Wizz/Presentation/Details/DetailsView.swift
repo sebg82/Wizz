@@ -17,10 +17,8 @@ struct DetailsView: View {
     let columns: [GridItem] = Array(repeating: .init(.flexible()), count: 2)
     
     var body: some View {
-        ZStack {
-            scrollingPhotos
-            closeButton
-        }
+        scrollingPhotos
+            .overlay(closeButton)
     }
     
     var closeButton: some View {
@@ -46,9 +44,7 @@ struct DetailsView: View {
             if showPlaceholderForAnimation, let selectedPhoto = selectedPhoto {
                 LazyVGrid(columns: columns, spacing: 10) {
                     Image(uiImage: UIImage.fromCache(orUrl: selectedPhoto.urlRegular))
-                        .resizable()
-                        .matchedGeometryEffect(id: "\(selectedPhoto.id)", in: namespace)
-                        .aspectRatio(1, contentMode: .fill)
+                        .resizedToFill(selectedPhoto, namespace: namespace)
     //                        .animation(.easeInOut(duration: Self.duration))
                         .onAppear {
                             // When animation finished
@@ -63,9 +59,7 @@ struct DetailsView: View {
                 LazyVGrid(columns: columns, spacing: 10) {
                     ForEach(vm.photos, id: \.id) { photo in
                         Image(uiImage: UIImage.fromCache(orUrl: photo.urlRegular))
-                            .resizable()
-                            .matchedGeometryEffect(id: "\(photo.id)", in: namespace)
-                            .aspectRatio(1, contentMode: .fill)
+                            .resizedToFill(photo, namespace: namespace)
     //                            .animation(.easeInOut(duration: Self.duration))
                     }
                 }
